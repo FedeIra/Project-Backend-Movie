@@ -1,13 +1,17 @@
 # Development Challenges for Improve-in
 
-In this repo you will find some development challenges to test your coding (and more) skills.
+## INTRODUCTION
 
-## Back-end
+## Architecture
 
-[Node.js](https://github.com/improvein/dev-challenge/tree/master/backend-nodejs)
+## SERVICES DEVELOPMENT
 
-[PHP](https://github.com/improvein/dev-challenge/tree/master/backend-php)
+## Get started
 
-## Front-end
+## Services
 
-[React](https://github.com/improvein/dev-challenge/tree/master/frontend-react)
+## TECHNOLOGIES STACK:
+
+- Language: Typescript / node.js
+- Framework: Fastify
+- Database: MongoDB
