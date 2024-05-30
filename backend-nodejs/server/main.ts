@@ -1,34 +1,47 @@
-import fastify from 'fastify';
+// external packages:
+import fastify, { FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
 
+// internal packages:
 import config from '../packages/env/config.js';
+import { moviesAndShowHandlers } from './handlers/tmdbHandlers/index.js';
 
-const fastifyServer = fastify();
-const port = Number(config.port) || 3001;
-const host = config.host || '0.0.0.0';
+// Fastify server configuration:
+const fastifyServerConfig = {
+  port: Number(config.port) || 3001,
+  host: config.host || '0.0.0.0',
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  },
+};
 
-fastifyServer.register(cors, {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-});
+// Fastify server builder:
+const buildServer = (): FastifyInstance => {
+  const fastifyServer: FastifyInstance = fastify();
+  fastifyServer.register(cors, fastifyServerConfig.cors);
+  return fastifyServer;
+};
 
-const startServer = async () => {
+// Fastify server initiation:
+const startServer = async (fastifyServer: FastifyInstance) => {
   try {
     await fastifyServer.listen({
-      port,
-      host,
+      port: fastifyServerConfig.port,
+      host: fastifyServerConfig.host,
     });
-    console.log(`Listening at http://localhost:${port}`);
+    console.log(`Listening at http://localhost:${fastifyServerConfig.port}`);
   } catch (err) {
-    console.error(err);
+    console.error(`Error starting server: ${err}`);
     process.exit(1);
   }
 };
 
-const start = async () => {
-  await startServer();
-};
+// Build and initiate fastify server:
+const fastifyServer = buildServer();
 
-start();
+moviesAndShowHandlers(fastifyServer);
+
+startServer(fastifyServer);
