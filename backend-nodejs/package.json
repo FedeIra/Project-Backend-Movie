@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "ts-node ./server/main.ts",
+    "start": "node --loader ts-node/esm ./server/main.ts",
     "dev": "cross-env NODE_NO_WARNINGS=1 nodemon --exec 'node --loader ts-node/esm' ./server/main.ts",
     "start:debug:ts": "node --inspect --loader ts-node/esm ./server/main.ts"
   },
