@@ -4,7 +4,7 @@ import cors from '@fastify/cors';
 
 // internal packages:
 import config from '../packages/env/config.js';
-import { moviesAndShowHandlers } from './handlers/tmdbHandlers/index.js';
+import { moviesAndShowHandlers } from './handlers/index.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
