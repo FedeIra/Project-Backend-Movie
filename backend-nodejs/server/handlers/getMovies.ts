@@ -16,6 +16,8 @@ export function getMoviesHandler(server: FastifyInstance) {
     try {
       console.log(JSON.stringify(request.body));
 
+      const hola: any = 'hola';
+
       requestBodySchema.parse(request.body);
 
       const tmdbClient = new TmdbClient();
