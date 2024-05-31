@@ -11,12 +11,10 @@ const requestBodySchema = z
   })
   .strict();
 
-export function getMoviesHandler(server: FastifyInstance) {
+export function getMoviesHandler(server: FastifyInstance): any {
   server.post(`/movies`, async (request, response) => {
     try {
       console.log(JSON.stringify(request.body));
-
-      const hola: any = 'hola';
 
       requestBodySchema.parse(request.body);
 
