@@ -1,4 +1,4 @@
-import { MoviesService } from '../../../services/movies/getMoviesService.js';
+import { MoviesService } from '../services/movies/getMoviesService.js';
 
 export class GetMoviesUseCase {
   constructor(private moviesService: MoviesService) {}

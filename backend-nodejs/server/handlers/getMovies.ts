@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { TmdbClient } from '../../packages/clients/tmdbClient/tmdbClient.js';
 
 import { TMDBMoviesService } from '../../src/services/movies/getMoviesService.js';
-// import { GetGenresUseCase } from '../../src/useCases/rawgApiCases/genres.js';
+import { GetMoviesUseCase } from '../../src/useCases/movies/getMovies.js';
 
 const requestBodySchema = z
   .object({
@@ -22,10 +22,13 @@ export function getMoviesHandler(server: FastifyInstance): any {
 
       const movieService = new TMDBMoviesService(tmdbClient);
 
-      // const getGenresUseCase = new GetGenresUseCase(videogamesService);
+      const getMoviesUseCase = new GetMoviesUseCase(movieService);
 
-      // const genres = await getGenresUseCase.getGenres();
-      response.send({ message: 'Movie handler works!' });
+      const movies = await getMoviesUseCase.getMovies(request.body);
+
+      console.info('🚀 ~ server.post ~ movies:', movies);
+
+      response.send(movies);
     } catch (error) {
       console.error(error);
       response.status(500).send({ error: 'Internal Server Error' });
