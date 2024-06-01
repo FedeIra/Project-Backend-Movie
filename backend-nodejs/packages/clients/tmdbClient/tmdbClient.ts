@@ -1,6 +1,8 @@
+// Import external packages:
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { z } from 'zod';
 
+// Import internal packages:
 import config from '../../../packages/env/config';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'delete';
@@ -27,7 +29,7 @@ export class TmdbClient {
     this.axios = axios.create();
   }
 
-  async send(params: SendParams): Promise<unknown> {
+  async send<T = unknown>(params: SendParams): Promise<T> {
     const { method, path, payload } = params;
     const fullUrl = `${this.baseUrl}${path}`;
 
@@ -40,19 +42,19 @@ export class TmdbClient {
     try {
       switch (method) {
         case 'get': {
-          const res = await this.axios.get(fullUrl, requestConfig);
+          const res = await this.axios.get<T>(fullUrl, requestConfig);
           return res.data;
         }
         case 'post': {
-          const res = await this.axios.post(fullUrl, payload, requestConfig);
+          const res = await this.axios.post<T>(fullUrl, payload, requestConfig);
           return res.data;
         }
         case 'put': {
-          const res = await this.axios.put(fullUrl, payload, requestConfig);
+          const res = await this.axios.put<T>(fullUrl, payload, requestConfig);
           return res.data;
         }
         case 'delete': {
-          const res = await this.axios.delete(fullUrl, requestConfig);
+          const res = await this.axios.delete<T>(fullUrl, requestConfig);
           return res.data;
         }
         default: {

@@ -4,7 +4,15 @@ import cors from '@fastify/cors';
 
 // internal packages:
 import config from '../packages/env/config.js';
-import { moviesAndShowHandlers } from './handlers/index.js';
+import { moviesHandlers } from './handlers/index.js';
+import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
+import { TMDBMoviesService } from '../src/services/tmdb/movies/getMoviesService.js';
+import { GetMoviesUseCase } from '../src/useCases/movies/getMovies.js';
+
+// Dependency injection:
+const tmdbClient = new TmdbClient();
+const tmdbMoviesService = new TMDBMoviesService(tmdbClient);
+const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -26,7 +34,7 @@ const buildServer = (): FastifyInstance => {
 };
 
 // Fastify server initiation:
-const startServer = async (fastifyServer: FastifyInstance) => {
+const startServer = async (fastifyServer: FastifyInstance): Promise<void> => {
   try {
     await fastifyServer.listen({
       port: fastifyServerConfig.port,
@@ -42,6 +50,10 @@ const startServer = async (fastifyServer: FastifyInstance) => {
 // Build and initiate fastify server:
 const fastifyServer = buildServer();
 
-moviesAndShowHandlers(fastifyServer);
+moviesHandlers(fastifyServer, {
+  tmdbClient,
+  tmdbMoviesService,
+  getMoviesUseCase,
+});
 
 startServer(fastifyServer);
