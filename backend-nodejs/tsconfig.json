@@ -6,7 +6,8 @@
     "moduleResolution": "Node",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
   "ts-node": {
     "experimentalSpecifierResolution": "node",
