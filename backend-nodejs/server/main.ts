@@ -4,10 +4,11 @@ import cors from '@fastify/cors';
 
 // internal packages:
 import config from '../packages/env/config.js';
-import { moviesHandlers } from './handlers/index.js';
 import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
 import { TMDBMoviesService } from '../src/services/tmdb/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../src/useCases/movies/getMovies.js';
+import { moviesHandlers } from './handlers/index.js';
+import { setupErrorHandler } from './errors.js';
 
 // Dependency injection:
 const tmdbClient = new TmdbClient();
@@ -55,5 +56,7 @@ moviesHandlers(fastifyServer, {
   tmdbMoviesService,
   getMoviesUseCase,
 });
+
+setupErrorHandler(fastifyServer);
 
 startServer(fastifyServer);

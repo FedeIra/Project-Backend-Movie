@@ -6,26 +6,36 @@ import { z } from 'zod';
 import { GetMoviesUseCase } from '../../src/useCases/movies/getMovies.js';
 import { Movie } from '../../src/models/movies.js';
 
+// 1) Define request body schema:
 const requestBodySchema = z
   .object({
     genre: z.string().optional(),
   })
   .strict();
 
-export function getMoviesHandler(
-  server: FastifyInstance,
+export const getMoviesHandler = (
+  fastifyServer: FastifyInstance,
   getMoviesUseCase: GetMoviesUseCase
-): void {
-  server.post(`/movies`, async (request, response) => {
+): void => {
+  fastifyServer.post(`/movies`, async (request, response) => {
     try {
-      requestBodySchema.parse(request.body);
-
-      const movies: Movie[] = await getMoviesUseCase.getMovies(request.body);
+      // 2) Validate request body:
+      const payload = requestBodySchema.parse(request.body);
+      // 3) Convert request body to use case payload:
+      const useCasePayload = toUseCasePayload(payload);
+      // 4) Call use case:
+      const movies: Movie[] = await getMoviesUseCase.getMovies(useCasePayload);
 
       return response.status(200).send(movies);
     } catch (error) {
-      console.error(error);
-      response.status(500).send({ error: 'Internal Server Error' });
+      throw error;
     }
   });
-}
+};
+
+// Request body to use case payload conversion function:
+const toUseCasePayload = (payload: any): any => {
+  return {
+    genre: payload.genre,
+  };
+};

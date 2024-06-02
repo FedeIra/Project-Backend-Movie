@@ -1,9 +1,11 @@
 export class CustomError extends Error {
   private statusCode: number;
+  private details: unknown;
 
-  constructor(message: string, statusCode: number) {
+  constructor(message: string, statusCode: number, details?: unknown) {
     super(message);
     this.statusCode = statusCode;
+    this.details = details;
   }
 
   getMessage(): string {
@@ -12,5 +14,9 @@ export class CustomError extends Error {
 
   getStatusCode(): number {
     return this.statusCode;
+  }
+
+  getDetails(): unknown {
+    return this.details;
   }
 }
