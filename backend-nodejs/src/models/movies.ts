@@ -1,3 +1,4 @@
+// Model for the movies
 export type Movie = {
   id: number;
   title: string;

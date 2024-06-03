@@ -1,7 +1,7 @@
-// Import external modules:
+// External packages:
 import { FastifyInstance } from 'fastify';
 
-// Import internal modules:
+// Internal modules:
 import { ZodError } from 'zod';
 import { CustomError } from '../packages/errors/customError.js';
 

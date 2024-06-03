@@ -1,3 +1,4 @@
+// Custom error class to handle errors in a more structured way:
 export class CustomError extends Error {
   private statusCode: number;
   private details: unknown;

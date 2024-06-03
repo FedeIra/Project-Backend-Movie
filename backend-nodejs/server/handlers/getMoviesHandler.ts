@@ -1,8 +1,8 @@
-// Import external packages:
+// External packages:
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-// Import internal packages:
+// Internal modules:
 import {
   GetMoviesUseCase,
   GetMoviesUseCasePayload,
@@ -12,9 +12,19 @@ import { Movie } from '../../src/models/movies.js';
 // 1) Define request body schema:
 const getMoviesRequestBodySchema = z
   .object({
-    genre: z.string().optional(),
-    recommended: z.boolean().optional(),
-    year: z.number().optional(),
+    filters: z
+      .object({
+        genre: z.string().optional(),
+        recommended: z.boolean().optional(),
+        year: z.number().optional(),
+      })
+      .optional(),
+    sorts: z
+      .object({
+        byDate: z.boolean().optional(),
+        byAverage: z.boolean().optional(),
+      })
+      .optional(),
   })
   .strict();
 
@@ -47,8 +57,14 @@ const toUseCasePayload = (
   payload: GetMoviesRequestBody
 ): GetMoviesUseCasePayload => {
   return {
-    genre: payload.genre ?? '',
-    recommended: payload.recommended ?? false,
-    year: payload.year ?? 0,
+    filters: {
+      genre: payload.filters?.genre ?? '',
+      recommended: payload.filters?.recommended ?? false,
+      year: payload.filters?.year ?? 0,
+    },
+    sorts: {
+      byDate: payload.sorts?.byDate ?? false,
+      byAverage: payload.sorts?.byAverage ?? false,
+    },
   };
 };

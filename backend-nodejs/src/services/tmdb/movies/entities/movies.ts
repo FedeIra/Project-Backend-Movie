@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Movie } from '../../../../models/movies';
 
+// Define TMDB movie response schema:
 export const tmdbMoviesSchema = z.object({
   page: z.number().optional(),
   results: z.array(
@@ -27,8 +28,10 @@ export const tmdbMoviesSchema = z.object({
   total_results: z.number().optional(),
 });
 
+// Define TMDB movie DTO type:
 export type TmdbMovieDTO = z.infer<typeof tmdbMoviesSchema>;
 
+// Converter TMDB movie response to model:
 export const toModelMovies = (tmdbMoviesResponse: TmdbMovieDTO): Movie[] => {
   const baseTmdbImageUrl =
     'https://image.tmdb.org/t/p/original/aKrDLfQX30tHaTIC2ZRAxG2PbQw.jpg';

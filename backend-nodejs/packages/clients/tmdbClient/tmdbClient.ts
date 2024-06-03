@@ -1,10 +1,11 @@
-// Import external packages:
+// External packages:
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { z } from 'zod';
 
-// Import internal packages:
+// Internal modules:
 import config from '../../../packages/env/config';
 
+// Define types for TMDB client:
 type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 
 type SendParams = {
@@ -13,6 +14,7 @@ type SendParams = {
   payload?: unknown;
 };
 
+// Define TMDB error schema:
 const TMDBErrorSchema = z.object({
   error: z.object({
     code: z.string(),
@@ -20,6 +22,7 @@ const TMDBErrorSchema = z.object({
   }),
 });
 
+// Define TMDB client class:
 export class TmdbClient {
   private axios: AxiosInstance;
   private baseUrl: string;
@@ -29,6 +32,7 @@ export class TmdbClient {
     this.axios = axios.create();
   }
 
+  // Method for sending requests to TMDB API:
   async send<T = unknown>(params: SendParams): Promise<T> {
     const { method, path, payload } = params;
     const fullUrl = `${this.baseUrl}${path}`;
@@ -62,6 +66,7 @@ export class TmdbClient {
         }
       }
     } catch (error) {
+      // Handle errors from TMDB API:
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
           throw new Error(`TMDB unauthorized the request`);
