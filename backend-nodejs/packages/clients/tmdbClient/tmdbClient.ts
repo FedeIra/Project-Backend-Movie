@@ -10,7 +10,7 @@ type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 type SendParams = {
   method: HttpMethod;
   path: string;
-  payload: unknown;
+  payload?: unknown;
 };
 
 const TMDBErrorSchema = z.object({

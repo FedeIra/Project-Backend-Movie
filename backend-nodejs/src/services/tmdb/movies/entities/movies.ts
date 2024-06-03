@@ -27,14 +27,12 @@ export const tmdbMoviesSchema = z.object({
   total_results: z.number().optional(),
 });
 
-export type TmdbMoviesResponse = z.infer<typeof tmdbMoviesSchema>;
+export type TmdbMovieDTO = z.infer<typeof tmdbMoviesSchema>;
 
-export const toModelMovies = (
-  tmdbMoviesResponse: TmdbMoviesResponse
-): Movie[] => {
+export const toModelMovies = (tmdbMoviesResponse: TmdbMovieDTO): Movie[] => {
   const baseTmdbImageUrl =
     'https://image.tmdb.org/t/p/original/aKrDLfQX30tHaTIC2ZRAxG2PbQw.jpg';
-  return tmdbMoviesResponse.results.map((movie) => {
+  const movies: Movie[] = tmdbMoviesResponse.results.map((movie) => {
     return {
       id: movie.id,
       title: movie.title,
@@ -88,4 +86,5 @@ export const toModelMovies = (
       }),
     };
   });
+  return movies;
 };

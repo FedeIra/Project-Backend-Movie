@@ -3,24 +3,23 @@ import { TmdbClient } from '../../../../packages/clients/tmdbClient/tmdbClient.j
 import config from '../../../../packages/env/config.js';
 import { Movie } from '../../../models/movies.js';
 import { tmdbMoviesSchema } from './entities/movies.js';
-import { TmdbMoviesResponse } from './entities/movies.js';
+import { TmdbMovieDTO } from './entities/movies.js';
 import { toModelMovies } from './entities/movies.js';
 
 export interface MoviesService {
-  getMoviesService(payload: any): Promise<Movie[]>;
+  getMoviesService(): Promise<Movie[]>;
 }
 
 export class TMDBMoviesService implements MoviesService {
   constructor(private client: TmdbClient) {}
 
-  async getMoviesService(payload: any): Promise<Movie[]> {
-    const tmdbResponse: TmdbMoviesResponse = await this.client.send({
+  async getMoviesService(): Promise<Movie[]> {
+    const tmdbResponse: TmdbMovieDTO = await this.client.send({
       method: 'get',
-      path: `/trending/movie/day?api_key=${config.tmdbApiKey}`,
-      payload: {},
+      path: `/trending/movie/week?api_key=${config.tmdbApiKey}`,
     });
 
-    const apiResponseValidation: TmdbMoviesResponse =
+    const apiResponseValidation: TmdbMovieDTO =
       tmdbMoviesSchema.parse(tmdbResponse);
 
     const movies: Movie[] = toModelMovies(apiResponseValidation);
