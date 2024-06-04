@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Movie } from '../../../../models/movies';
+import { Movie } from '../../../models/movies';
 
 // Define TMDB movie response schema:
 export const tmdbMoviesSchema = z.object({

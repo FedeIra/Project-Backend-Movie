@@ -5,7 +5,7 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 // Internal modules:
 import { getMoviesHandler } from './getMoviesHandler.js';
 import { TmdbClient } from '../../packages/clients/tmdbClient/tmdbClient.js';
-import { TMDBMoviesService } from '../../src/services/tmdb/movies/getMoviesService.js';
+import { TMDBMoviesService } from '../../src/services/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../../src/useCases/movies/getMovies.js';
 
 // Define dependencies for movies handlers:

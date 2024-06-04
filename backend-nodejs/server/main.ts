@@ -5,15 +5,17 @@ import cors from '@fastify/cors';
 // internal packages:
 import config from '../packages/env/config.js';
 import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
-import { TMDBMoviesService } from '../src/services/tmdb/movies/getMoviesService.js';
+import { TMDBMoviesService } from '../src/services/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../src/useCases/movies/getMovies.js';
 import { moviesHandlers } from './handlers/index.js';
 import { setupErrorHandler } from './errors.js';
+import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 
-// Dependency injection:
+// Dependencies injection:
 const tmdbClient = new TmdbClient();
 const tmdbMoviesService = new TMDBMoviesService(tmdbClient);
 const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
+const databaseClient = new DatabaseClient();
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -37,13 +39,14 @@ const buildServer = (): FastifyInstance => {
 // Fastify server initiation:
 const startServer = async (fastifyServer: FastifyInstance): Promise<void> => {
   try {
+    await databaseClient.connect();
     await fastifyServer.listen({
       port: fastifyServerConfig.port,
       host: fastifyServerConfig.host,
     });
-    console.log(`Listening at http://localhost:${fastifyServerConfig.port}`);
+    console.log(`Listening at http://localhost:${fastifyServerConfig.port}.`);
   } catch (err) {
-    console.error(`Error starting server: ${err}`);
+    console.error(`Error starting server. More details as follows: ${err}`);
     process.exit(1);
   }
 };

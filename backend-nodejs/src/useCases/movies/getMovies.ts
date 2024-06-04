@@ -1,4 +1,4 @@
-import { MoviesService } from '../../services/tmdb/movies/getMoviesService.js';
+import { MoviesService } from '../../services/movies/getMoviesService.js';
 import { Movie } from '../../models/movies.js';
 
 // Define use case payload schema:
