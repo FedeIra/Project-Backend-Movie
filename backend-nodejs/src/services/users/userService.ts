@@ -1,5 +1,5 @@
 // External packages:
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 // Internal modules:
 import { UserModel, IUser } from '../../models/users.js';
