@@ -4,11 +4,18 @@ import Mongoose, { Schema } from 'mongoose';
 // Internal modules:
 import config from '../../packages/env/config.js';
 
+export type User = {
+  username: string;
+  email: string;
+  createdAt: Date;
+  wishList: string[];
+};
+
 export interface IUser extends Document {
   username: string;
   password: string;
   email: string;
-  wishList: Schema.Types.ObjectId[];
+  wishList: string[];
 }
 
 export const userSchema: Schema<IUser> = new Schema(
@@ -23,14 +30,14 @@ export const userSchema: Schema<IUser> = new Schema(
     password: { type: String, required: true, minlength: 6 },
     email: { type: String, required: true, match: /.+\@.+\..+/ },
     wishList: {
-      type: [{ type: Schema.Types.ObjectId, ref: `TMDB Movie Id` }],
+      type: [String],
       default: [],
     },
   },
   { timestamps: true }
 );
 
-export const UserModel = Mongoose.model<IUser>(
-  `${config.usersCollection}`,
+export const UserModel = Mongoose.model(
+  config.usersCollection as string,
   userSchema
 );

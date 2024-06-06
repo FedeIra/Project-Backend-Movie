@@ -1,5 +1,7 @@
+// External packages:
 import { z } from 'zod';
 
+// Internal modules:
 import { Movie } from '../../../models/movies';
 
 // Define TMDB movie response schema:

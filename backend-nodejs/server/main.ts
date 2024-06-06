@@ -7,15 +7,19 @@ import config from '../packages/env/config.js';
 import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
 import { TMDBMoviesService } from '../src/services/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../src/useCases/movies/getMovies.js';
-import { moviesHandlers } from './handlers/index.js';
+import { moviesHandlers, usersHandlers } from './handlers/index.js';
 import { setupErrorHandler } from './errors.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
+import { DataBaseServices } from '../src/services/users/userService.js';
+import { RegisterUserUseCase } from '../src/useCases/users/registerUser.js';
 
 // Dependencies injection:
 const tmdbClient = new TmdbClient();
 const tmdbMoviesService = new TMDBMoviesService(tmdbClient);
-const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
 const databaseClient = new DatabaseClient();
+const dataBaseServices = new DataBaseServices();
+const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
+const registerUserUseCase = new RegisterUserUseCase(dataBaseServices);
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -58,6 +62,12 @@ moviesHandlers(fastifyServer, {
   tmdbClient,
   tmdbMoviesService,
   getMoviesUseCase,
+});
+
+usersHandlers(fastifyServer, {
+  databaseClient,
+  dataBaseServices,
+  registerUserUseCase,
 });
 
 setupErrorHandler(fastifyServer);

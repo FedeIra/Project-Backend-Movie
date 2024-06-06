@@ -2,47 +2,55 @@
 import bcrypt from 'bcrypt';
 
 // Internal modules:
-import { UserModel, IUser } from '../../models/users.js';
+import { IUser, UserModel } from '../../models/users.js';
+import {
+  RegisterUserPayload,
+  // RegisterUserUseCaseResponse,
+} from '../../useCases/users/registerUser.js';
+import {
+  databaseUserSchema,
+  DatabaseUser,
+  toModelUser,
+} from './entities/users.js';
+import { User } from '../../models/users.js';
 
 // Define service interface:
-export interface UsersService {
-  createUser(data: Omit<IUser, 'wishList'>): Promise<any>;
+export interface RegisterService {
+  registerUser(data: RegisterUserPayload): Promise<User>;
 }
 
-export class DataBaseServices implements UsersService {
+export class DataBaseServices implements RegisterService {
   constructor() {}
 
-  async createUser(data: Omit<IUser, 'wishList'>): Promise<any> {
-    const existingUser = await this.getUser(data.username);
+  async registerUser(data: RegisterUserPayload): Promise<User> {
+    // 1) Check if user already exists:
+    const existingUser: DatabaseUser | null = await this.getUser(data.username);
     if (existingUser) {
+      console.log(`Username already exists. ${existingUser}`);
       throw new Error('Username already exists.');
     }
 
-    // const hash = await bcrypt.hash(data.password, 10);
+    // 2) Hash password:
+    const hash: string = await bcrypt.hash(data.password, 10);
 
-    const newUser = await UserModel.create({
+    // 3) Create user in database:
+    const dataBaseResponse = await UserModel.create({
       ...data,
-      // password: hash,
+      password: hash,
     });
 
-    return newUser;
+    // 4) Validate response:
+    const registerUserResponse: DatabaseUser =
+      databaseUserSchema.parse(dataBaseResponse);
+
+    // 5) Convert response to model:
+    const user: User = toModelUser(registerUserResponse);
+    console.log('🚀 ~ DataBaseServices ~ registerUser ~ user:', user);
+
+    return user;
   }
 
-  async getUser(username: string): Promise<IUser | null> {
+  async getUser(username: string): Promise<DatabaseUser | null> {
     return UserModel.findOne({ username });
   }
-
-  // async getUserById(
-  //   id: string
-  // ): Promise<{ id: string; username: string; createdAt: Date }> {
-  //   const user = await UserModel.findById(id);
-  //   if (!user) {
-  //     throw new Error('User not found.');
-  //   }
-  //   return {
-  //     id: user.id,
-  //     username: user.username,
-  //     createdAt: user.createdAt,
-  //   };
-  // }
 }

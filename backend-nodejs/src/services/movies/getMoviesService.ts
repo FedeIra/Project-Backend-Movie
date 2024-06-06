@@ -2,9 +2,11 @@
 import { TmdbClient } from '../../../packages/clients/tmdbClient/tmdbClient.js';
 import config from '../../../packages/env/config.js';
 import { Movie } from '../../models/movies.js';
-import { tmdbMoviesSchema } from './entities/movies.js';
-import { TmdbMovieDTO } from './entities/movies.js';
-import { toModelMovies } from './entities/movies.js';
+import {
+  tmdbMoviesSchema,
+  toModelMovies,
+  TmdbMovieDTO,
+} from './entities/movies.js';
 
 // Define service interface:
 export interface MoviesService {
