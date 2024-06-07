@@ -8,9 +8,9 @@ import { TMDBMoviesService } from '../../src/services/movies/getMoviesService.js
 import { DatabaseClient } from '../../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../../src/services/users/userService.js';
 import { getMoviesHandler } from './getMoviesHandler.js';
-import { GetMoviesUseCase } from '../../src/useCases/movies/getMovies.js';
+import { GetMoviesUseCase } from '../../src/useCases/movies/getMoviesUseCase.js';
 import { registerUserHandler } from './registerUser.js';
-import { RegisterUserUseCase } from '../../src/useCases/users/registerUser.js';
+import { RegisterUserUseCase } from '../../src/useCases/users/registerUserUserCase.js';
 
 // Define dependencies for movies handlers:
 type MovieDependencies = {
@@ -31,9 +31,7 @@ export const moviesHandlers = (
   server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
   dependencies: MovieDependencies
 ): void => {
-  const { getMoviesUseCase } = dependencies;
-
-  getMoviesHandler(server, getMoviesUseCase);
+  getMoviesHandler(server, dependencies.getMoviesUseCase);
 };
 
 // Define users handlers:
@@ -41,7 +39,5 @@ export const usersHandlers = (
   server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
   dependencies: UserDependencies
 ): void => {
-  const { registerUserUseCase } = dependencies;
-
-  registerUserHandler(server, registerUserUseCase);
+  registerUserHandler(server, dependencies.registerUserUseCase);
 };

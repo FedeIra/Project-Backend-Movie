@@ -46,48 +46,28 @@ export const toModelMovies = (tmdbMoviesResponse: TmdbMovieDTO): Movie[] => {
       average: movie.vote_average,
       releaseDate: movie.release_date,
       genres: movie.genre_ids.map((genreId) => {
-        switch (genreId) {
-          case 28:
-            return 'Action';
-          case 12:
-            return 'Adventure';
-          case 16:
-            return 'Animation';
-          case 35:
-            return 'Comedy';
-          case 80:
-            return 'Crime';
-          case 99:
-            return 'Documentary';
-          case 18:
-            return 'Drama';
-          case 10751:
-            return 'Family';
-          case 14:
-            return 'Fantasy';
-          case 36:
-            return 'History';
-          case 27:
-            return 'Horror';
-          case 10402:
-            return 'Music';
-          case 9648:
-            return 'Mystery';
-          case 10749:
-            return 'Romance';
-          case 878:
-            return 'Science Fiction';
-          case 10770:
-            return 'TV Movie';
-          case 53:
-            return 'Thriller';
-          case 10752:
-            return 'War';
-          case 37:
-            return 'Western';
-          default:
-            return 'Unknown';
-        }
+        const genreMap: Record<number, string> = {
+          28: 'Action',
+          12: 'Adventure',
+          16: 'Animation',
+          35: 'Comedy',
+          80: 'Crime',
+          99: 'Documentary',
+          18: 'Drama',
+          10751: 'Family',
+          14: 'Fantasy',
+          36: 'History',
+          27: 'Horror',
+          10402: 'Music',
+          9648: 'Mystery',
+          10749: 'Romance',
+          878: 'Science Fiction',
+          10770: 'TV Movie',
+          53: 'Thriller',
+          10752: 'War',
+          37: 'Western',
+        };
+        return genreMap[genreId];
       }),
     };
   });

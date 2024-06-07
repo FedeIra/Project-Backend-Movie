@@ -17,7 +17,7 @@ export interface MoviesService {
 export class TMDBMoviesService implements MoviesService {
   constructor(private client: TmdbClient) {}
 
-  // 1) Service method for getting movies:
+  // 1) TMDB external service for getting movies:
   async getMoviesService(): Promise<Movie[]> {
     const tmdbResponse: TmdbMovieDTO = await this.client.send({
       method: 'get',

@@ -1,9 +1,10 @@
 // External packages:
-import Mongoose, { Schema } from 'mongoose';
+import Mongoose, { Schema, Document } from 'mongoose';
 
 // Internal modules:
 import config from '../../packages/env/config.js';
 
+// User model type:
 export type User = {
   username: string;
   email: string;
@@ -11,6 +12,7 @@ export type User = {
   wishList: string[];
 };
 
+// User model schema:
 export interface IUser extends Document {
   username: string;
   password: string;
@@ -18,7 +20,7 @@ export interface IUser extends Document {
   wishList: string[];
 }
 
-export const userSchema: Schema<IUser> = new Schema(
+const userSchema: Schema<IUser> = new Schema(
   {
     username: {
       type: String,

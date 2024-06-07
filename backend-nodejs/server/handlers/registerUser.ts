@@ -7,9 +7,9 @@ import {
   RegisterUserUseCase,
   RegisterUserPayload,
   RegisterUserUseCaseResponse,
-} from '../../src/useCases/users/registerUser.js';
+} from '../../src/useCases/users/registerUserUserCase.js';
 
-// 1) Define request body schema:
+// Handler request body schema:
 const registerUserRequestBodySchema = z
   .object({
     username: z.string(),
@@ -20,18 +20,19 @@ const registerUserRequestBodySchema = z
 
 type RegisterUserRequestBody = z.infer<typeof registerUserRequestBodySchema>;
 
+// Handler function:
 export const registerUserHandler = (
   fastifyServer: FastifyInstance,
   registerUserUseCase: RegisterUserUseCase
 ): void => {
   fastifyServer.post(`/register-user`, async (request, response) => {
     try {
-      // 2) Validate request body:
+      // 1) Validate request body:
       const payload: RegisterUserRequestBody =
         registerUserRequestBodySchema.parse(request.body);
-      // 3) Convert request body to use case payload:
+      // 2) Convert request body to use case payload:
       const useCasePayload: RegisterUserPayload = toUseCasePayload(payload);
-      // 4) Call use case:
+      // 3) Call use case:
       const user: RegisterUserUseCaseResponse =
         await registerUserUseCase.registerUser(useCasePayload);
 

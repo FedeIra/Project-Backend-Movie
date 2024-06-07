@@ -6,10 +6,10 @@ import { z } from 'zod';
 import {
   GetMoviesUseCase,
   GetMoviesUseCasePayload,
-} from '../../src/useCases/movies/getMovies.js';
+} from '../../src/useCases/movies/getMoviesUseCase.js';
 import { Movie } from '../../src/models/movies.js';
 
-// 1) Define request body schema:
+// Handler request body schema:
 const getMoviesRequestBodySchema = z
   .object({
     filters: z
@@ -30,19 +30,20 @@ const getMoviesRequestBodySchema = z
 
 type GetMoviesRequestBody = z.infer<typeof getMoviesRequestBodySchema>;
 
+// Handler function:
 export const getMoviesHandler = (
   fastifyServer: FastifyInstance,
   getMoviesUseCase: GetMoviesUseCase
 ): void => {
   fastifyServer.post(`/movies`, async (request, response) => {
     try {
-      // 2) Validate request body:
+      // 1) Validate request body:
       const payload: GetMoviesRequestBody = getMoviesRequestBodySchema.parse(
         request.body
       );
-      // 3) Convert request body to use case payload:
+      // 2) Convert request body to use case payload:
       const useCasePayload: GetMoviesUseCasePayload = toUseCasePayload(payload);
-      // 4) Call use case:
+      // 3) Call use case:
       const movies: Movie[] = await getMoviesUseCase.getMovies(useCasePayload);
 
       return response.status(200).send(movies);

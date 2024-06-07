@@ -1,7 +1,7 @@
+// Internal modules:
 import { RegisterService } from '../../services/users/userService.js';
-import { IUser } from '../../models/users.js';
 
-// Define use case payload schema:
+// Define use case payload and response:
 export type RegisterUserPayload = {
   username: string;
   password: string;

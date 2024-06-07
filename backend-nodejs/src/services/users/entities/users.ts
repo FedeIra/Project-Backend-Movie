@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 // Internal modules:
 import { User } from '../../../models/users.js';
 
+// Define Database user response schema:
 export const databaseUserSchema = z.object({
   _id: z.instanceof(mongoose.Types.ObjectId).optional(),
   username: z.string(),
@@ -16,9 +17,11 @@ export const databaseUserSchema = z.object({
   __v: z.number().optional(),
 });
 
-export type DatabaseUser = z.infer<typeof databaseUserSchema>;
+// Define Database user DTO type:
+export type DatabaseUserDTO = z.infer<typeof databaseUserSchema>;
 
-export const toModelUser = (dataBaseResponse: DatabaseUser): User => {
+// Converter Database user response to model:
+export const toModelUser = (dataBaseResponse: DatabaseUserDTO): User => {
   return {
     username: dataBaseResponse.username,
     email: dataBaseResponse.email,

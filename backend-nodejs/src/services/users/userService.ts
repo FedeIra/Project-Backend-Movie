@@ -2,14 +2,11 @@
 import bcrypt from 'bcrypt';
 
 // Internal modules:
-import { IUser, UserModel } from '../../models/users.js';
-import {
-  RegisterUserPayload,
-  // RegisterUserUseCaseResponse,
-} from '../../useCases/users/registerUser.js';
+import { UserModel } from '../../models/users.js';
+import { RegisterUserPayload } from '../../useCases/users/registerUserUserCase.js';
 import {
   databaseUserSchema,
-  DatabaseUser,
+  DatabaseUserDTO,
   toModelUser,
 } from './entities/users.js';
 import { User } from '../../models/users.js';
@@ -19,15 +16,20 @@ export interface RegisterService {
   registerUser(data: RegisterUserPayload): Promise<User>;
 }
 
+// Define service class:
 export class DataBaseServices implements RegisterService {
-  constructor() {}
-
   async registerUser(data: RegisterUserPayload): Promise<User> {
-    // 1) Check if user already exists:
-    const existingUser: DatabaseUser | null = await this.getUser(data.username);
+    // 1) Check if user or email already exists:
+    const existingUser: DatabaseUserDTO | null = await this.getUser(
+      data.username,
+      data.email
+    );
     if (existingUser) {
-      console.log(`Username already exists. ${existingUser}`);
-      throw new Error('Username already exists.');
+      if (existingUser.username === data.username) {
+        throw new Error('Username already exists');
+      } else {
+        throw new Error('Email already in use.');
+      }
     }
 
     // 2) Hash password:
@@ -40,17 +42,22 @@ export class DataBaseServices implements RegisterService {
     });
 
     // 4) Validate response:
-    const registerUserResponse: DatabaseUser =
+    const registerUserResponse: DatabaseUserDTO =
       databaseUserSchema.parse(dataBaseResponse);
 
     // 5) Convert response to model:
     const user: User = toModelUser(registerUserResponse);
-    console.log('🚀 ~ DataBaseServices ~ registerUser ~ user:', user);
 
     return user;
   }
 
-  async getUser(username: string): Promise<DatabaseUser | null> {
-    return UserModel.findOne({ username });
+  // Helper function to get user from database:
+  private async getUser(
+    username: string,
+    email: string
+  ): Promise<DatabaseUserDTO | null> {
+    return await UserModel.findOne({
+      $or: [{ username }, { email }],
+    });
   }
 }

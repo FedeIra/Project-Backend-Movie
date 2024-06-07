@@ -1,3 +1,4 @@
+// Internal modules:
 import { MoviesService } from '../../services/movies/getMoviesService.js';
 import { Movie } from '../../models/movies.js';
 
@@ -14,13 +15,13 @@ export type GetMoviesUseCasePayload = {
   };
 };
 
-// Define use cases for movies:
+// Define use cases for getting movies:
 export class GetMoviesUseCase {
   constructor(private moviesService: MoviesService) {}
 
   // Use case for getting movies:
   async getMovies(payload: GetMoviesUseCasePayload): Promise<Movie[]> {
-    const movies = await this.moviesService.getMoviesService();
+    const movies: Movie[] = await this.moviesService.getMoviesService();
 
     const filteredMovies: Movie[] = this.applyFilters(movies, payload);
 
@@ -39,14 +40,17 @@ export class GetMoviesUseCase {
   ): Movie[] {
     let filteredMovies: Movie[] = movies;
 
+    // Genre filter:
     if (payload.filters.genre) {
       filteredMovies = filteredMovies.filter((movie) =>
         movie.genres.includes(payload.filters.genre)
       );
     }
+    // Recommended filter:
     if (payload.filters.recommended) {
       filteredMovies = filteredMovies.filter((movie) => movie.average >= 7);
     }
+    // Year filter:
     if (payload.filters.year) {
       filteredMovies = filteredMovies.filter(
         (movie) =>
@@ -63,12 +67,15 @@ export class GetMoviesUseCase {
   ): Movie[] {
     let sortedMovies: Movie[] = movies;
 
+    // Sort by date:
     if (payload.sorts.byDate) {
       sortedMovies = sortedMovies.sort(
         (a, b) =>
           new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
       );
     }
+
+    // Sort by average:
     if (payload.sorts.byAverage) {
       sortedMovies = sortedMovies.sort((a, b) => b.average - a.average);
     }

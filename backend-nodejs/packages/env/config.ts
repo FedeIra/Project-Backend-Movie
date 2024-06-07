@@ -1,6 +1,7 @@
 // Import external packages:
 import 'dotenv/config';
 
+// Environment variables:
 const config = {
   port: process.env.PORT,
   host: process.env.HOST,

@@ -6,12 +6,12 @@ import cors from '@fastify/cors';
 import config from '../packages/env/config.js';
 import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
 import { TMDBMoviesService } from '../src/services/movies/getMoviesService.js';
-import { GetMoviesUseCase } from '../src/useCases/movies/getMovies.js';
+import { GetMoviesUseCase } from '../src/useCases/movies/getMoviesUseCase.js';
 import { moviesHandlers, usersHandlers } from './handlers/index.js';
 import { setupErrorHandler } from './errors.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../src/services/users/userService.js';
-import { RegisterUserUseCase } from '../src/useCases/users/registerUser.js';
+import { RegisterUserUseCase } from '../src/useCases/users/registerUserUserCase.js';
 
 // Dependencies injection:
 const tmdbClient = new TmdbClient();
@@ -58,6 +58,7 @@ const startServer = async (fastifyServer: FastifyInstance): Promise<void> => {
 // Build and initiate fastify server:
 const fastifyServer = buildServer();
 
+// Handlers setup:
 moviesHandlers(fastifyServer, {
   tmdbClient,
   tmdbMoviesService,
@@ -72,4 +73,5 @@ usersHandlers(fastifyServer, {
 
 setupErrorHandler(fastifyServer);
 
+// Start server:
 startServer(fastifyServer);
