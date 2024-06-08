@@ -5,6 +5,13 @@ import mongoose from 'mongoose';
 // Internal modules:
 import { UserRegistration, User } from '../../../models/users.js';
 
+// Type for user decoded token:
+export type DecodedToken = {
+  id: string;
+  username: string;
+  iat: number;
+};
+
 // Define Database user response schema:
 export const databaseUserSchema = z.object({
   _id: z.instanceof(mongoose.Types.ObjectId),

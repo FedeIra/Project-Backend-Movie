@@ -8,6 +8,7 @@ import { UserModel } from '../../models/users.js';
 import { RegisterUserPayload } from '../../useCases/users/registerUserUseCase.js';
 import { LoginUserPayload } from '../../useCases/users/loginUserUseCase.js';
 import {
+  DecodedToken,
   databaseUserSchema,
   DatabaseUserDTO,
   toModelUserRegistration,
@@ -19,6 +20,7 @@ import { UserRegistration, User } from '../../models/users.js';
 export interface UserService {
   registerUser(payload: RegisterUserPayload): Promise<UserRegistration>;
   loginUser(payload: LoginUserPayload): Promise<User>;
+  refreshToken(refreshToken: string): Promise<string>;
 }
 
 // Define service class:
@@ -78,7 +80,7 @@ export class DataBaseServices implements UserService {
       throw new Error('Invalid username or password');
     }
 
-    const token: any = await this.getToken(
+    const token: string = await this.getToken(
       existingUser._id,
       existingUser.username
     );
@@ -86,6 +88,23 @@ export class DataBaseServices implements UserService {
     const loggedUser: User = toModelUserLogin(existingUser, token);
 
     return loggedUser;
+  }
+
+  // Refresh token service method:
+  async refreshToken(refreshToken: string): Promise<string> {
+    const decodedToken: DecodedToken | null =
+      await this.decodeToken(refreshToken);
+
+    if (!decodedToken) {
+      throw new Error('Invalid token');
+    }
+
+    const token: string = await this.getToken(
+      decodedToken.id,
+      decodedToken.username
+    );
+
+    return token;
   }
 
   // Helper function to get user from database:
@@ -100,12 +119,17 @@ export class DataBaseServices implements UserService {
 
   // Helper function to obtain token:
   private async getToken(
-    id: mongoose.Types.ObjectId,
+    id: mongoose.Types.ObjectId | string,
     username: string
-  ): Promise<any> {
+  ): Promise<string> {
     return this.fastifyServer.jwt.sign({
       id,
       username,
     });
+  }
+
+  // Helper function to obtain refresh token:
+  private async decodeToken(token: string): Promise<DecodedToken | null> {
+    return this.fastifyServer.jwt.decode(token);
   }
 }

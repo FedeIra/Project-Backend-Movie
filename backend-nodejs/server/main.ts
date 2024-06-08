@@ -9,11 +9,12 @@ import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
 import { TMDBMoviesService } from '../src/services/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../src/useCases/movies/getMoviesUseCase.js';
 import { moviesHandlers, usersHandlers } from './handlers/handlerIndex.js';
-import { setupErrorHandler } from './errors.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../src/services/users/userService.js';
 import { RegisterUserUseCase } from '../src/useCases/users/registerUserUseCase.js';
 import { LoginUserUseCase } from '../src/useCases/users/loginUserUseCase.js';
+import { RefreshTokenUseCase } from '../src/useCases/users/refreshTokenUseCase.js';
+import { setupErrorHandler } from './errors.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -48,6 +49,7 @@ const dataBaseServices = new DataBaseServices(fastifyServer);
 const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
 const registerUserUseCase = new RegisterUserUseCase(dataBaseServices);
 const loginUserUseCase = new LoginUserUseCase(dataBaseServices);
+const refreshTokenUseCase = new RefreshTokenUseCase(dataBaseServices);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -61,6 +63,7 @@ usersHandlers(fastifyServer, {
   dataBaseServices,
   registerUserUseCase,
   loginUserUseCase,
+  refreshTokenUseCase,
 });
 
 setupErrorHandler(fastifyServer);

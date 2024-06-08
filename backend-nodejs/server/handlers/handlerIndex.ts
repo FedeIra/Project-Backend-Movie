@@ -13,6 +13,8 @@ import { registerUserHandler } from './registerUserHandler.js';
 import { RegisterUserUseCase } from '../../src/useCases/users/registerUserUseCase.js';
 import { loginHandler } from './loginUserHandler.js';
 import { LoginUserUseCase } from '../../src/useCases/users/loginUserUseCase.js';
+import { refreshTokenHandler } from './refreshTokenHandler.js';
+import { RefreshTokenUseCase } from '../../src/useCases/users/refreshTokenUseCase.js';
 
 // Define dependencies for movies handlers:
 type MovieDependencies = {
@@ -44,4 +46,5 @@ export const usersHandlers = (
 ): void => {
   registerUserHandler(server, dependencies.registerUserUseCase);
   loginHandler(server, dependencies.loginUserUseCase);
+  refreshTokenHandler(server, dependencies.refreshTokenUseCase);
 };
