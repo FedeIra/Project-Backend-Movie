@@ -15,6 +15,7 @@ export const databaseUserSchema = z.object({
     z.object({
       title: z.string(),
       id: z.string(),
+      image: z.string(),
     })
   ),
   createdAt: z.date(),

@@ -18,6 +18,7 @@ export type RegisterUserUseCaseResponse = {
 export type WishList = {
   title: string;
   id: string;
+  image: string;
 };
 
 // Define use case for create user:
