@@ -5,7 +5,9 @@ export type RefreshTokenPayload = {
   previousToken: string;
 };
 
-export type RefreshTokenResponse = string;
+export type RefreshTokenResponse = {
+  newToken: string;
+};
 
 // Define use case for refreshing token:
 export class RefreshTokenUseCase {

@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 // Internal modules:
 import { RefreshTokenUseCase } from '../../src/useCases/users/refreshTokenUseCase';
+import { UserToken } from '../../src/models/users';
 
 // Handler request body schema:
 const refreshTokenRequestBodySchema = z
@@ -29,7 +30,7 @@ export const refreshTokenHandler = (
           refreshTokenRequestBodySchema.parse(request.body);
 
         // 2) Call use case:
-        const newToken: string = await refreshTokenUseCase.refreshToken({
+        const newToken: UserToken = await refreshTokenUseCase.refreshToken({
           previousToken: payload.currentToken,
         });
 

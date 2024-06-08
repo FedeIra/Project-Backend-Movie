@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify';
 import mongoose from 'mongoose';
 
 // Internal modules:
-import { UserModel, WishList } from '../../models/users.js';
+import { UserModel, WishList, UserToken } from '../../models/users.js';
 import { RegisterUserPayload } from '../../useCases/users/registerUserUseCase.js';
 import { LoginUserPayload } from '../../useCases/users/loginUserUseCase.js';
 import { AddToWishlistPayload } from '../../useCases/users/addToWishlistUseCase.js';
@@ -21,7 +21,7 @@ import { UserRegistration, User } from '../../models/users.js';
 export interface UserService {
   registerUser(payload: RegisterUserPayload): Promise<UserRegistration>;
   loginUser(payload: LoginUserPayload): Promise<User>;
-  refreshToken(refreshToken: string): Promise<string>;
+  refreshToken(refreshToken: string): Promise<UserToken>;
   addToWishlist(payload: AddToWishlistPayload): Promise<void>;
 }
 
@@ -83,7 +83,7 @@ export class DataBaseServices implements UserService {
     }
 
     // 3) Generate token:
-    const token: string = await this.getToken(user._id, user.username);
+    const token: string = await this.generateToken(user._id, user.username);
 
     // 4) Convert response to model:
     const loggedUser: User = toModelUserLogin(user, token);
@@ -92,7 +92,7 @@ export class DataBaseServices implements UserService {
   }
 
   // Refresh token service method:
-  async refreshToken(refreshToken: string): Promise<string> {
+  async refreshToken(refreshToken: string): Promise<UserToken> {
     // 1) Decode token:
     const decodedToken: DecodedToken | null =
       await this.decodeToken(refreshToken);
@@ -102,12 +102,13 @@ export class DataBaseServices implements UserService {
     }
 
     // 2) Generate new token:
-    const token: string = await this.getToken(
+    const newToken: string = await this.generateToken(
       decodedToken.id,
       decodedToken.username
     );
 
-    return token;
+    // 3) Return new token:
+    return { newToken };
   }
 
   // Add to wishlist service method:
@@ -144,14 +145,11 @@ export class DataBaseServices implements UserService {
   }
 
   // Helper function to obtain token:
-  private async getToken(
+  private async generateToken(
     id: mongoose.Types.ObjectId | string,
     username: string
   ): Promise<string> {
-    return this.fastifyServer.jwt.sign({
-      id,
-      username,
-    });
+    return this.fastifyServer.jwt.sign({ id, username }, { expiresIn: '1h' });
   }
 
   // Helper function to obtain refresh token:

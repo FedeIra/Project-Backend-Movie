@@ -39,7 +39,12 @@ export class TMDBTvShowService implements TvShowService {
       return tvShowDetails;
     } catch (error) {
       if (error instanceof ZodError) {
-        throw new ClientError('TMDB incorrect response.', error);
+        throw new ClientError('TMDB detail tv show incorrect response.', {
+          validationErrors: error.errors.map((err) => ({
+            path: err.path.join('.'),
+            message: err.message,
+          })),
+        });
       } else {
         throw new ClientError('TMDB service error.', error);
       }

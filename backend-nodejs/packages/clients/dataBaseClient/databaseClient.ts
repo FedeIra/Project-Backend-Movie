@@ -1,5 +1,5 @@
 // External packages:
-import mongoose, { Connection } from 'mongoose';
+import mongoose, { Connection, Collection } from 'mongoose';
 
 // Internal modules:
 import config from '../../env/config.js';
@@ -17,7 +17,7 @@ export class DatabaseClient {
   private setupEventHandlers(): void {
     this.connection.on('error', (error) => {
       console.error(`Database error. More details as follows: ${error}.`);
-      process.exit(1);
+      throw new Error('Database error');
     });
 
     this.connection.once('open', () => {
@@ -28,12 +28,14 @@ export class DatabaseClient {
   // Method for connecting to the database:
   async connect(): Promise<void> {
     try {
-      await mongoose.connect(config.connectionStringDb);
+      await mongoose.connect(
+        config.connectionStringDb ?? 'add connection string to .env file'
+      );
     } catch (error) {
       console.error(
         `Failed to connect to the database. More details as follows: ${error}.`
       );
-      process.exit(1);
+      throw new Error('Failed to connect to the database');
     }
   }
 
@@ -46,19 +48,19 @@ export class DatabaseClient {
       console.error(
         `Failed to disconnect from the database. More details as follows: ${error}.`
       );
-      process.exit(1);
+      throw new Error('Failed to disconnect from the database');
     }
   }
 
   // Method for getting a collection:
-  async getCollection(collectionName: string): Promise<mongoose.Collection> {
+  async getCollection(collectionName: string): Promise<Collection> {
     try {
       return this.connection.collection(collectionName);
     } catch (error) {
       console.error(
         `Failed to get collection. More details as follows: ${error}.`
       );
-      process.exit(1);
+      throw new Error('Failed to get collection');
     }
   }
 }

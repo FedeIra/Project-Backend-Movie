@@ -28,7 +28,8 @@ export class TmdbClient {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = config.tmdbBaseUrl || '';
+    this.baseUrl =
+      config.tmdbBaseUrl ?? 'add https://api.themoviedb.org/3 to .env file';
     this.axios = axios.create();
   }
 
@@ -62,24 +63,25 @@ export class TmdbClient {
           return res.data;
         }
         default: {
-          throw Error(`Not implemented`);
+          throw Error(`HTTP method ${method} not implemented`);
         }
       }
     } catch (error) {
       // Handle errors from TMDB API:
       if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
+        const status = error.response?.status;
+        const data = error.response?.data;
+        if (status === 401) {
           throw new Error(`TMDB unauthorized the request`);
         }
-        const data = error.response?.data;
         if (data !== undefined) {
           try {
             const apiError = TMDBErrorSchema.parse(data);
             throw new Error(
-              `rawg api error: ${apiError.error.code} - ${apiError.error.message}`
+              `TMDB API error: ${apiError.error.code} - ${apiError.error.message}`
             );
           } catch {
-            throw new Error(`TMDB api error: ${data}`);
+            throw new Error(`TMDB API error: ${JSON.stringify(data)}`);
           }
         }
       }

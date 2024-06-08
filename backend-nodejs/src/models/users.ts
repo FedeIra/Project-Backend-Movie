@@ -12,17 +12,21 @@ export type UserRegistration = {
   wishList: WishList[];
 };
 
+export type User = {
+  username: string;
+  email: string;
+  wishList: WishList[];
+  token: string;
+};
+
 export type WishList = {
   title: string;
   id: number;
   image: string;
 };
 
-export type User = {
-  username: string;
-  email: string;
-  wishList: WishList[];
-  token: string;
+export type UserToken = {
+  newToken: string;
 };
 
 // User model schema:

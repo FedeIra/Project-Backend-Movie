@@ -38,7 +38,12 @@ export class TMDBMoviesService implements MoviesService {
       return movies;
     } catch (error) {
       if (error instanceof ZodError) {
-        throw new ClientError('TMDB incorrect response.', error);
+        throw new ClientError('TMDB movies incorrect response.', {
+          validationErrors: error.errors.map((err) => ({
+            path: err.path.join('.'),
+            message: err.message,
+          })),
+        });
       } else {
         throw new ClientError('TMDB service error.', error);
       }
