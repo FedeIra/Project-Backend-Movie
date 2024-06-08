@@ -21,8 +21,10 @@ export class GetMoviesUseCase {
 
   // Use case for getting movies:
   async getMovies(payload: GetMoviesUseCasePayload): Promise<Movie[]> {
+    // 1) Get movies from service:
     const movies: Movie[] = await this.moviesService.getMoviesService();
 
+    // 2) Apply filters and sorts:
     const filteredMovies: Movie[] = this.applyFilters(movies, payload);
 
     const filteredSortedMovies: Movie[] = this.applySorts(
@@ -65,11 +67,11 @@ export class GetMoviesUseCase {
     movies: Movie[],
     payload: GetMoviesUseCasePayload
   ): Movie[] {
-    let sortedMovies: Movie[] = movies;
+    let sortAndFilteredMovies: Movie[] = movies;
 
     // Sort by date:
     if (payload.sorts.byDate) {
-      sortedMovies = sortedMovies.sort(
+      sortAndFilteredMovies.sort(
         (a, b) =>
           new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
       );
@@ -77,8 +79,8 @@ export class GetMoviesUseCase {
 
     // Sort by average:
     if (payload.sorts.byAverage) {
-      sortedMovies = sortedMovies.sort((a, b) => b.average - a.average);
+      sortAndFilteredMovies.sort((a, b) => b.average - a.average);
     }
-    return sortedMovies;
+    return sortAndFilteredMovies;
   }
 }
