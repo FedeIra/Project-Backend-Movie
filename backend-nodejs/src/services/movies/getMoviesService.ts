@@ -1,3 +1,6 @@
+// External packages:
+import { ZodError } from 'zod';
+
 // Internal modules:
 import { TmdbClient } from '../../../packages/clients/tmdbClient/tmdbClient.js';
 import config from '../../../packages/env/config.js';
@@ -20,21 +23,25 @@ export class TMDBMoviesService implements MoviesService {
 
   // 1) TMDB external service for getting movies:
   async getMoviesService(): Promise<Movie[]> {
-    const tmdbResponse: TmdbMovieDTO = await this.client.send({
-      method: 'get',
-      path: `/trending/movie/week?api_key=${config.tmdbApiKey}`,
-    });
-
-    // 2) Validate response:
     try {
+      const tmdbResponse: TmdbMovieDTO = await this.client.send({
+        method: 'get',
+        path: `/trending/movie/week?api_key=${config.tmdbApiKey}`,
+      });
+
+      // 2) Validate response:
       tmdbMoviesSchema.parse(tmdbResponse);
+
+      // 3) Convert response to model:
+      const movies: Movie[] = toModelMovies(tmdbResponse);
+
+      return movies;
     } catch (error) {
-      throw new ClientError('Invalid data received from TMDB API', error);
+      if (error instanceof ZodError) {
+        throw new ClientError('TMDB incorrect response.', error);
+      } else {
+        throw new ClientError('TMDB service error.', error);
+      }
     }
-
-    // 3) Convert response to model:
-    const movies: Movie[] = toModelMovies(tmdbResponse);
-
-    return movies;
   }
 }
