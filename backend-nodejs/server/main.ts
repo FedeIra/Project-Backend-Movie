@@ -43,7 +43,7 @@ const buildServer = (): FastifyInstance => {
   fastifyServer.register(fastifyJwt, {
     secret: config.jwtSecret ?? 'add-your-jwt-secret-in-env-file',
   });
-  // middleware for authentication with jwt
+  // Middleware for authentication with jwt
   fastifyServer.decorate(
     'authenticate',
     async function (
