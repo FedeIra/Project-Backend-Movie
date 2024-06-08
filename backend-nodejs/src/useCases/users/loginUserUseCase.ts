@@ -1,3 +1,4 @@
+import { WishList } from '../../models/users.js';
 import { UserService } from '../../services/users/userService.js';
 
 // Define use case payload and response:
@@ -9,7 +10,7 @@ export type LoginUserPayload = {
 export type LoginUserResponse = {
   username: string;
   email: string;
-  wishList: string[];
+  wishList: WishList[];
   token: string;
 };
 

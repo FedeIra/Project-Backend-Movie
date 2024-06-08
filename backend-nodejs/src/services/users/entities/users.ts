@@ -11,7 +11,12 @@ export const databaseUserSchema = z.object({
   username: z.string(),
   password: z.string().optional(),
   email: z.string(),
-  wishList: z.array(z.string()),
+  wishList: z.array(
+    z.object({
+      title: z.string(),
+      id: z.string(),
+    })
+  ),
   createdAt: z.date(),
   updatedAt: z.date().optional(),
   __v: z.number().optional(),

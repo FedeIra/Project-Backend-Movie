@@ -12,7 +12,12 @@ export type RegisterUserUseCaseResponse = {
   username: string;
   email: string;
   createdAt: Date;
-  wishList: string[];
+  wishList: WishList[];
+};
+
+export type WishList = {
+  title: string;
+  id: string;
 };
 
 // Define use case for create user:

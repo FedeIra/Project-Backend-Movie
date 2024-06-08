@@ -9,13 +9,18 @@ export type UserRegistration = {
   username: string;
   email: string;
   createdAt: Date;
-  wishList: string[];
+  wishList: WishList[];
+};
+
+export type WishList = {
+  title: string;
+  id: string;
 };
 
 export type User = {
   username: string;
   email: string;
-  wishList: string[];
+  wishList: WishList[];
   token: string;
 };
 
@@ -24,7 +29,7 @@ export interface IUser extends Document {
   username: string;
   password: string;
   email: string;
-  wishList: string[];
+  wishList: WishList[];
 }
 
 const userSchema: Schema<IUser> = new Schema(
@@ -39,7 +44,12 @@ const userSchema: Schema<IUser> = new Schema(
     password: { type: String, required: true, minlength: 6 },
     email: { type: String, required: true, match: /.+\@.+\..+/ },
     wishList: {
-      type: [String],
+      type: [
+        {
+          title: { type: String, required: true },
+          id: { type: String, required: true },
+        },
+      ],
       default: [],
     },
   },
