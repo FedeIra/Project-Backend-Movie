@@ -7,7 +7,7 @@ import {
   RegisterUserUseCase,
   RegisterUserPayload,
   RegisterUserUseCaseResponse,
-} from '../../src/useCases/users/registerUserUserCase.js';
+} from '../../src/useCases/users/registerUserUseCase.js';
 
 // Handler request body schema:
 const registerUserRequestBodySchema = z

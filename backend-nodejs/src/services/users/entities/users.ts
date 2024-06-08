@@ -3,11 +3,11 @@ import { z } from 'zod';
 import mongoose from 'mongoose';
 
 // Internal modules:
-import { User } from '../../../models/users.js';
+import { UserRegistration, User } from '../../../models/users.js';
 
 // Define Database user response schema:
 export const databaseUserSchema = z.object({
-  _id: z.instanceof(mongoose.Types.ObjectId).optional(),
+  _id: z.instanceof(mongoose.Types.ObjectId),
   username: z.string(),
   password: z.string().optional(),
   email: z.string(),
@@ -20,12 +20,27 @@ export const databaseUserSchema = z.object({
 // Define Database user DTO type:
 export type DatabaseUserDTO = z.infer<typeof databaseUserSchema>;
 
-// Converter Database user response to model:
-export const toModelUser = (dataBaseResponse: DatabaseUserDTO): User => {
+// Converter Database user registration response to model:
+export const toModelUserRegistration = (
+  dataBaseResponse: DatabaseUserDTO
+): UserRegistration => {
   return {
     username: dataBaseResponse.username,
     email: dataBaseResponse.email,
     wishList: dataBaseResponse.wishList,
     createdAt: dataBaseResponse.createdAt,
+  };
+};
+
+// Converter Database user login response to model:
+export const toModelUserLogin = (
+  dataBaseResponse: DatabaseUserDTO,
+  token: string
+): User => {
+  return {
+    username: dataBaseResponse.username,
+    email: dataBaseResponse.email,
+    wishList: dataBaseResponse.wishList,
+    token,
   };
 };

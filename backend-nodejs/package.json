@@ -8,7 +8,9 @@
     "start:debug:ts": "node --inspect --loader ts-node/esm ./server/main.ts"
   },
   "dependencies": {
+    "@fastify/auth": "^4.6.1",
     "@fastify/cors": "9.0.1",
+    "@fastify/jwt": "^8.0.1",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -19,11 +21,13 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/fastify-jwt": "^0.8.1",
     "@types/node": "^20.13.0",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.4.0",
+    "eslint": "^8.56.0",
     "nodemon": "^3.1.2",
     "prettier": "3.3.0",
     "ts-node": "^10.9.2",

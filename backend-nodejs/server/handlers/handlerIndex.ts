@@ -9,8 +9,10 @@ import { DatabaseClient } from '../../packages/clients/dataBaseClient/databaseCl
 import { DataBaseServices } from '../../src/services/users/userService.js';
 import { getMoviesHandler } from './getMoviesHandler.js';
 import { GetMoviesUseCase } from '../../src/useCases/movies/getMoviesUseCase.js';
-import { registerUserHandler } from './registerUser.js';
-import { RegisterUserUseCase } from '../../src/useCases/users/registerUserUserCase.js';
+import { registerUserHandler } from './registerUserHandler.js';
+import { RegisterUserUseCase } from '../../src/useCases/users/registerUserUseCase.js';
+import { loginHandler } from './loginUserHandler.js';
+import { LoginUserUseCase } from '../../src/useCases/users/loginUserUseCase.js';
 
 // Define dependencies for movies handlers:
 type MovieDependencies = {
@@ -24,6 +26,7 @@ type UserDependencies = {
   databaseClient: DatabaseClient;
   dataBaseServices: DataBaseServices;
   registerUserUseCase: RegisterUserUseCase;
+  loginUserUseCase: LoginUserUseCase;
 };
 
 // Define movies handlers:
@@ -40,4 +43,5 @@ export const usersHandlers = (
   dependencies: UserDependencies
 ): void => {
   registerUserHandler(server, dependencies.registerUserUseCase);
+  loginHandler(server, dependencies.loginUserUseCase);
 };

@@ -10,6 +10,7 @@ const config = {
   connectionStringDb: process.env.CONNECTION_STRING_DB ?? '',
   dbName: process.env.DB_NAME,
   usersCollection: process.env.USER_COLLECTION_NAME,
+  jwtSecret: process.env.JWT_SECRET,
 };
 
 export default config;

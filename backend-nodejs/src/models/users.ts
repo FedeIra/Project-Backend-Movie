@@ -5,11 +5,18 @@ import Mongoose, { Schema, Document } from 'mongoose';
 import config from '../../packages/env/config.js';
 
 // User model type:
-export type User = {
+export type UserRegistration = {
   username: string;
   email: string;
   createdAt: Date;
   wishList: string[];
+};
+
+export type User = {
+  username: string;
+  email: string;
+  wishList: string[];
+  token: string;
 };
 
 // User model schema:

@@ -1,5 +1,5 @@
 // Internal modules:
-import { RegisterService } from '../../services/users/userService.js';
+import { UserService } from '../../services/users/userService.js';
 
 // Define use case payload and response:
 export type RegisterUserPayload = {
@@ -17,9 +17,8 @@ export type RegisterUserUseCaseResponse = {
 
 // Define use case for create user:
 export class RegisterUserUseCase {
-  constructor(private registerService: RegisterService) {}
+  constructor(private registerService: UserService) {}
 
-  // Use case for creating user:
   async registerUser(
     payload: RegisterUserPayload
   ): Promise<RegisterUserUseCaseResponse> {
