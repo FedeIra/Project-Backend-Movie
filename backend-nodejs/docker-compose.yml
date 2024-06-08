@@ -22,6 +22,10 @@ services:
       MONGO_INITDB_DATABASE: movie-challenge
     volumes:
       - mongo-data:/data/db
+      - ./mongod.conf:/etc/mongod.conf
+      - mongo-log:/data/log
+    command: ['mongod', '--config', '/etc/mongod.conf']
 
 volumes:
-  mongo-data:
+  mongo-data: { driver: local }
+  mongo-log: { driver: local }
