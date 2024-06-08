@@ -15,12 +15,22 @@ import { loginHandler } from './loginUserHandler.js';
 import { LoginUserUseCase } from '../../src/useCases/users/loginUserUseCase.js';
 import { refreshTokenHandler } from './refreshTokenHandler.js';
 import { RefreshTokenUseCase } from '../../src/useCases/users/refreshTokenUseCase.js';
+import { TMDBTvShowService } from '../../src/services/tvShows/getTvshowDetailsService.js';
+import { GetTvshowDetailsUseCase } from '../../src/useCases/tvShows/getTvshowsDetaillsUseCase.js';
+import { getTvshowDetailsHandler } from './getTvshowDetailsHandler.js';
 
-// Define dependencies for movies handlers:
+// Define dependencies for movies handler:
 type MovieDependencies = {
   tmdbClient: TmdbClient;
   tmdbMoviesService: TMDBMoviesService;
   getMoviesUseCase: GetMoviesUseCase;
+};
+
+// Define dependencies for tv show details handler:
+type TvShowDetailsDependencies = {
+  tmdbClient: TmdbClient;
+  tmdbTvShowService: TMDBTvShowService;
+  getTvshowDetailsUseCase: GetTvshowDetailsUseCase;
 };
 
 // Define dependencies for users handlers:
@@ -29,14 +39,23 @@ type UserDependencies = {
   dataBaseServices: DataBaseServices;
   registerUserUseCase: RegisterUserUseCase;
   loginUserUseCase: LoginUserUseCase;
+  refreshTokenUseCase: RefreshTokenUseCase;
 };
 
-// Define movies handlers:
+// Define movies handler:
 export const moviesHandlers = (
   server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
   dependencies: MovieDependencies
 ): void => {
   getMoviesHandler(server, dependencies.getMoviesUseCase);
+};
+
+// Define tv show details handler:
+export const tvShowDetailsHandlers = (
+  server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
+  dependencies: TvShowDetailsDependencies
+): void => {
+  getTvshowDetailsHandler(server, dependencies.getTvshowDetailsUseCase);
 };
 
 // Define users handlers:

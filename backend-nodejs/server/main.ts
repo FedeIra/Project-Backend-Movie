@@ -8,13 +8,19 @@ import config from '../packages/env/config.js';
 import { TmdbClient } from '../packages/clients/tmdbClient/tmdbClient.js';
 import { TMDBMoviesService } from '../src/services/movies/getMoviesService.js';
 import { GetMoviesUseCase } from '../src/useCases/movies/getMoviesUseCase.js';
-import { moviesHandlers, usersHandlers } from './handlers/handlerIndex.js';
+import {
+  moviesHandlers,
+  tvShowDetailsHandlers,
+  usersHandlers,
+} from './handlers/handlerIndex.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../src/services/users/userService.js';
 import { RegisterUserUseCase } from '../src/useCases/users/registerUserUseCase.js';
 import { LoginUserUseCase } from '../src/useCases/users/loginUserUseCase.js';
 import { RefreshTokenUseCase } from '../src/useCases/users/refreshTokenUseCase.js';
 import { setupErrorHandler } from './errors.js';
+import { TMDBTvShowService } from '../src/services/tvShows/getTvshowDetailsService.js';
+import { GetTvshowDetailsUseCase } from '../src/useCases/tvShows/getTvshowsDetaillsUseCase.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -44,9 +50,11 @@ const fastifyServer = buildServer();
 // Dependencies injection:
 const tmdbClient = new TmdbClient();
 const tmdbMoviesService = new TMDBMoviesService(tmdbClient);
+const tmdbTvShowService = new TMDBTvShowService(tmdbClient);
 const databaseClient = new DatabaseClient();
 const dataBaseServices = new DataBaseServices(fastifyServer);
 const getMoviesUseCase = new GetMoviesUseCase(tmdbMoviesService);
+const getTvshowDetailsUseCase = new GetTvshowDetailsUseCase(tmdbTvShowService);
 const registerUserUseCase = new RegisterUserUseCase(dataBaseServices);
 const loginUserUseCase = new LoginUserUseCase(dataBaseServices);
 const refreshTokenUseCase = new RefreshTokenUseCase(dataBaseServices);
@@ -56,6 +64,12 @@ moviesHandlers(fastifyServer, {
   tmdbClient,
   tmdbMoviesService,
   getMoviesUseCase,
+});
+
+tvShowDetailsHandlers(fastifyServer, {
+  tmdbClient,
+  tmdbTvShowService,
+  getTvshowDetailsUseCase,
 });
 
 usersHandlers(fastifyServer, {
