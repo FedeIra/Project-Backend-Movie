@@ -1,6 +1,7 @@
 // Internal modules:
 import { TmdbClient } from '../../../packages/clients/tmdbClient/tmdbClient.js';
 import config from '../../../packages/env/config.js';
+import { ClientError } from '../../../packages/errors/clientError.js';
 import { TvShowDetails } from '../../models/tvShowDetails.js';
 import {
   tmdbTvshowDetailsSchema,
@@ -25,13 +26,14 @@ export class TMDBTvShowService implements TvShowService {
     });
 
     // 2) Validate response:
-    const apiResponseValidation: TmdbTvshowDetailsDTO =
+    try {
       tmdbTvshowDetailsSchema.parse(tmdbResponse);
+    } catch (error) {
+      throw new ClientError('Invalid data received from TMDB API', error);
+    }
 
     // 3) Convert response to model:
-    const tvShowDetails: TvShowDetails = toModelTvShowDetails(
-      apiResponseValidation
-    );
+    const tvShowDetails: TvShowDetails = toModelTvShowDetails(tmdbResponse);
 
     return tvShowDetails;
   }

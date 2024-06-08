@@ -21,6 +21,8 @@ import { RefreshTokenUseCase } from '../src/useCases/users/refreshTokenUseCase.j
 import { setupErrorHandler } from './errors.js';
 import { TMDBTvShowService } from '../src/services/tvShows/getTvshowDetailsService.js';
 import { GetTvshowDetailsUseCase } from '../src/useCases/tvShows/getTvshowsDetaillsUseCase.js';
+import { AddToWishlistUseCase } from '../src/useCases/users/addToWishlistUseCase.js';
+import { UnauthorizedError } from '../packages/errors/unauthorizedError.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -41,6 +43,20 @@ const buildServer = (): FastifyInstance => {
   fastifyServer.register(fastifyJwt, {
     secret: config.jwtSecret ?? 'add-your-jwt-secret-in-env-file',
   });
+  // middleware for authentication with jwt
+  fastifyServer.decorate(
+    'authenticate',
+    async function (
+      request: { jwtVerify: () => any },
+      reply: { send: (arg0: unknown) => void }
+    ) {
+      try {
+        await request.jwtVerify();
+      } catch (error) {
+        reply.send(new UnauthorizedError('Unauthorized access', error));
+      }
+    }
+  );
   return fastifyServer;
 };
 
@@ -58,6 +74,7 @@ const getTvshowDetailsUseCase = new GetTvshowDetailsUseCase(tmdbTvShowService);
 const registerUserUseCase = new RegisterUserUseCase(dataBaseServices);
 const loginUserUseCase = new LoginUserUseCase(dataBaseServices);
 const refreshTokenUseCase = new RefreshTokenUseCase(dataBaseServices);
+const addToWishlistUseCase = new AddToWishlistUseCase(dataBaseServices);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -78,6 +95,7 @@ usersHandlers(fastifyServer, {
   registerUserUseCase,
   loginUserUseCase,
   refreshTokenUseCase,
+  addToWishlistUseCase,
 });
 
 setupErrorHandler(fastifyServer);

@@ -21,7 +21,7 @@ export const databaseUserSchema = z.object({
   wishList: z.array(
     z.object({
       title: z.string(),
-      id: z.string(),
+      id: z.number(),
       image: z.string(),
     })
   ),

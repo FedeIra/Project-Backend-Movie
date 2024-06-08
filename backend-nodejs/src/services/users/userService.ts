@@ -4,9 +4,10 @@ import { FastifyInstance } from 'fastify';
 import mongoose from 'mongoose';
 
 // Internal modules:
-import { UserModel } from '../../models/users.js';
+import { UserModel, WishList } from '../../models/users.js';
 import { RegisterUserPayload } from '../../useCases/users/registerUserUseCase.js';
 import { LoginUserPayload } from '../../useCases/users/loginUserUseCase.js';
+import { AddToWishlistPayload } from '../../useCases/users/addToWishlistUseCase.js';
 import {
   DecodedToken,
   databaseUserSchema,
@@ -21,6 +22,7 @@ export interface UserService {
   registerUser(payload: RegisterUserPayload): Promise<UserRegistration>;
   loginUser(payload: LoginUserPayload): Promise<User>;
   refreshToken(refreshToken: string): Promise<string>;
+  addToWishlist(payload: AddToWishlistPayload): Promise<void>;
 }
 
 // Define service class:
@@ -68,30 +70,30 @@ export class DataBaseServices implements UserService {
 
   // Login user service method:
   async loginUser(payload: LoginUserPayload): Promise<User> {
-    const existingUser: DatabaseUserDTO | null = await this.getUser(
-      payload.username
-    );
+    // 1) Check if user exist:
+    const user: DatabaseUserDTO | null = await this.getUser(payload.username);
 
+    // 2) Validate user and password:
     if (
-      !existingUser ||
-      !existingUser.password ||
-      !(await bcrypt.compare(payload.password, existingUser.password))
+      !user ||
+      !user.password ||
+      !(await bcrypt.compare(payload.password, user.password))
     ) {
       throw new Error('Invalid username or password');
     }
 
-    const token: string = await this.getToken(
-      existingUser._id,
-      existingUser.username
-    );
+    // 3) Generate token:
+    const token: string = await this.getToken(user._id, user.username);
 
-    const loggedUser: User = toModelUserLogin(existingUser, token);
+    // 4) Convert response to model:
+    const loggedUser: User = toModelUserLogin(user, token);
 
     return loggedUser;
   }
 
   // Refresh token service method:
   async refreshToken(refreshToken: string): Promise<string> {
+    // 1) Decode token:
     const decodedToken: DecodedToken | null =
       await this.decodeToken(refreshToken);
 
@@ -99,12 +101,36 @@ export class DataBaseServices implements UserService {
       throw new Error('Invalid token');
     }
 
+    // 2) Generate new token:
     const token: string = await this.getToken(
       decodedToken.id,
       decodedToken.username
     );
 
     return token;
+  }
+
+  // Add to wishlist service method:
+  async addToWishlist(payload: AddToWishlistPayload): Promise<void> {
+    // 1) Get user:
+    const user: DatabaseUserDTO | null = await this.getUser(payload.username);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // 2) Add content to wishlist:
+    const updatedWishlist: WishList[] = [
+      ...user.wishList,
+      {
+        id: payload.newContent.id,
+        title: payload.newContent.title,
+        image: payload.newContent.poster,
+      },
+    ];
+
+    // 3) Update user wishlist:
+    await this.addContentWishlist(payload.username, updatedWishlist);
   }
 
   // Helper function to get user from database:
@@ -131,5 +157,13 @@ export class DataBaseServices implements UserService {
   // Helper function to obtain refresh token:
   private async decodeToken(token: string): Promise<DecodedToken | null> {
     return this.fastifyServer.jwt.decode(token);
+  }
+
+  // Helper function to add content to wishlist:
+  private async addContentWishlist(
+    username: string,
+    payload: WishList[]
+  ): Promise<void> {
+    await UserModel.updateOne({ username }, { $set: { wishList: payload } });
   }
 }

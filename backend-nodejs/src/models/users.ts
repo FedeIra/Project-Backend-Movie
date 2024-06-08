@@ -14,7 +14,7 @@ export type UserRegistration = {
 
 export type WishList = {
   title: string;
-  id: string;
+  id: number;
   image: string;
 };
 
@@ -48,7 +48,7 @@ const userSchema: Schema<IUser> = new Schema(
       type: [
         {
           title: { type: String, required: true },
-          id: { type: String, required: true },
+          id: { type: Number, required: true },
           image: { type: String, required: true },
         },
       ],

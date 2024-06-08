@@ -18,6 +18,8 @@ import { RefreshTokenUseCase } from '../../src/useCases/users/refreshTokenUseCas
 import { TMDBTvShowService } from '../../src/services/tvShows/getTvshowDetailsService.js';
 import { GetTvshowDetailsUseCase } from '../../src/useCases/tvShows/getTvshowsDetaillsUseCase.js';
 import { getTvshowDetailsHandler } from './getTvshowDetailsHandler.js';
+import { addToWishlistHandler } from './addToWishlistHandler.js';
+import { AddToWishlistUseCase } from '../../src/useCases/users/addToWishlistUseCase.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -40,6 +42,7 @@ type UserDependencies = {
   registerUserUseCase: RegisterUserUseCase;
   loginUserUseCase: LoginUserUseCase;
   refreshTokenUseCase: RefreshTokenUseCase;
+  addToWishlistUseCase: AddToWishlistUseCase;
 };
 
 // Define movies handler:
@@ -66,4 +69,5 @@ export const usersHandlers = (
   registerUserHandler(server, dependencies.registerUserUseCase);
   loginHandler(server, dependencies.loginUserUseCase);
   refreshTokenHandler(server, dependencies.refreshTokenUseCase);
+  addToWishlistHandler(server, dependencies.addToWishlistUseCase);
 };

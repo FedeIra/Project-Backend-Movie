@@ -17,7 +17,7 @@ export type RegisterUserUseCaseResponse = {
 
 export type WishList = {
   title: string;
-  id: string;
+  id: number;
   image: string;
 };
 

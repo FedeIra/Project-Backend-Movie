@@ -16,23 +16,27 @@ type RefreshTokenRequestBody = z.infer<typeof refreshTokenRequestBodySchema>;
 
 // Handler function:
 export const refreshTokenHandler = (
-  server: FastifyInstance,
+  fastifyServer: FastifyInstance,
   refreshTokenUseCase: RefreshTokenUseCase
 ) => {
-  server.post('/refresh-token', async (request, response) => {
-    try {
-      // 1) Validate request body:
-      const payload: RefreshTokenRequestBody =
-        refreshTokenRequestBodySchema.parse(request.body);
+  fastifyServer.post(
+    '/refresh-token',
+    { preValidation: [fastifyServer.authenticate] },
+    async (request, response) => {
+      try {
+        // 1) Validate request body:
+        const payload: RefreshTokenRequestBody =
+          refreshTokenRequestBodySchema.parse(request.body);
 
-      // 2) Call use case:
-      const newToken: string = await refreshTokenUseCase.refreshToken({
-        previousToken: payload.currentToken,
-      });
+        // 2) Call use case:
+        const newToken: string = await refreshTokenUseCase.refreshToken({
+          previousToken: payload.currentToken,
+        });
 
-      return response.status(200).send(newToken);
-    } catch (error) {
-      throw error;
+        return response.status(200).send(newToken);
+      } catch (error) {
+        throw error;
+      }
     }
-  });
+  );
 };

@@ -21,21 +21,25 @@ export const getTvshowDetailsHandler = (
   fastifyServer: FastifyInstance,
   getTvshowDetailsUseCase: GetTvshowDetailsUseCase
 ): void => {
-  fastifyServer.post(`/tvshow-details`, async (request, response) => {
-    try {
-      // 1) Validate request body:
-      const payload: GetTvshowDetailsRequestBody =
-        getTvshowDetailsRequestBodySchema.parse(request.body);
+  fastifyServer.post(
+    `/tvshow-details`,
+    { preValidation: [fastifyServer.authenticate] },
+    async (request, response) => {
+      try {
+        // 1) Validate request body:
+        const payload: GetTvshowDetailsRequestBody =
+          getTvshowDetailsRequestBodySchema.parse(request.body);
 
-      // 2) Call use case:
-      const tvshowDetails: TvShowDetails =
-        await getTvshowDetailsUseCase.getTvshowDetails({
-          tvshowId: payload.tvshowId,
-        });
+        // 2) Call use case:
+        const tvshowDetails: TvShowDetails =
+          await getTvshowDetailsUseCase.getTvshowDetails({
+            tvshowId: payload.tvshowId,
+          });
 
-      return response.status(200).send(tvshowDetails);
-    } catch (error) {
-      throw error;
+        return response.status(200).send(tvshowDetails);
+      } catch (error) {
+        throw error;
+      }
     }
-  });
+  );
 };

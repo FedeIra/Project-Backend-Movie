@@ -1,6 +1,7 @@
 // Internal modules:
 import { TmdbClient } from '../../../packages/clients/tmdbClient/tmdbClient.js';
 import config from '../../../packages/env/config.js';
+import { ClientError } from '../../../packages/errors/clientError.js';
 import { Movie } from '../../models/movies.js';
 import {
   tmdbMoviesSchema,
@@ -25,11 +26,14 @@ export class TMDBMoviesService implements MoviesService {
     });
 
     // 2) Validate response:
-    const apiResponseValidation: TmdbMovieDTO =
+    try {
       tmdbMoviesSchema.parse(tmdbResponse);
+    } catch (error) {
+      throw new ClientError('Invalid data received from TMDB API', error);
+    }
 
     // 3) Convert response to model:
-    const movies: Movie[] = toModelMovies(apiResponseValidation);
+    const movies: Movie[] = toModelMovies(tmdbResponse);
 
     return movies;
   }

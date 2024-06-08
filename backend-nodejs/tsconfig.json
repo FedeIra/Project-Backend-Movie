@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "./packages/fastify/fastify.d.ts"]
   },
   "ts-node": {
     "experimentalSpecifierResolution": "node",
