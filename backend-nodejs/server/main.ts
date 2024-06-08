@@ -41,7 +41,7 @@ const buildServer = (): FastifyInstance => {
   const fastifyServer: FastifyInstance = fastify();
   fastifyServer.register(cors, fastifyServerConfig.cors);
   fastifyServer.register(fastifyJwt, {
-    secret: config.jwtSecret ?? 'add-your-jwt-secret-in-env-file',
+    secret: config.jwtSecret as string,
   });
   // Middleware for authentication with jwt
   fastifyServer.decorate(
