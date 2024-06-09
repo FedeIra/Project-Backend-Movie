@@ -16,6 +16,8 @@ import {
   toModelUserLogin,
 } from './entities/users.js';
 import { UserRegistration, User } from '../../models/users.js';
+import { ZodError } from 'zod';
+import { ClientError } from '../../../packages/errors/clientError.js';
 
 // Define service interface:
 export interface UserService {
@@ -120,7 +122,18 @@ export class DataBaseServices implements UserService {
       throw new Error('User not found');
     }
 
-    // 2) Add content to wishlist:
+    // 2) Check if content already in wishlist:
+    if (user.wishList.length > 0) {
+      const contentExists = user.wishList.find(
+        (content) => content.id === payload.newContent.id
+      );
+
+      if (contentExists) {
+        throw new ClientError('Content already in wishlist.');
+      }
+    }
+
+    // 3) Add content to wishlist:
     const updatedWishlist: WishList[] = [
       ...user.wishList,
       {
@@ -130,7 +143,7 @@ export class DataBaseServices implements UserService {
       },
     ];
 
-    // 3) Update user wishlist:
+    // 4) Update user wishlist:
     await this.addContentWishlist(payload.username, updatedWishlist);
   }
 

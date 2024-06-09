@@ -116,11 +116,15 @@ The main objective of this architecture is to keep the business rules isolated f
 
 Below, an image of clean architecture is shown:
 
-![Clean Architecture](./CleanArchitecture.jpg)
+![Clean Architecture](./assetsDocumentation/CleanArchitecture.jpg)
 
 Please note flow of data. Handler ("Controller") receives the request, then it calls the use case, which may or may not interact with services (DB, External Interfaces, etc.). The use case returns the response to the controller ("Presenter"), which sends the response back to the client.
 
 Entities (in our development "Models") are the objects that represent the core business objects of the application. They are independent of the data access layer object (in our development "Entities").
+
+Below, an image the architecture of the project is shown:
+
+![Project Architecture](./assetsDocumentation/Architecture.drawio.png)
 
 ## Tech Stack
 
@@ -479,7 +483,7 @@ Some examples of error responses:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE.txt) file for details.
+This project is licensed under the MIT License. See the [LICENSE](./assetsDocumentation/LICENSE.txt) file for details.
 
 ## Author
 
