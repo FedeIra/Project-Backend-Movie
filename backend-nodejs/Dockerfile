@@ -1,20 +1,20 @@
-# Utiliza una imagen base de Node.js con soporte para TypeScript //TODO: PASAR COMENTARIO A INGLES
+# Dockerfile for a Node.js backend application
 FROM node:16-alpine
 
-# Establece el directorio de trabajo en el contenedor
+# Set the working directory in the container
 WORKDIR /app
 
-# Copia el archivo package.json y package-lock.json al directorio de trabajo
+# Copy the package.json and package-lock.json to the container
 COPY package*.json ./
 
-# Instala las dependencias del proyecto
+# Install the dependencies
 RUN npm install
 
-# Copia el resto del código de la aplicación al contenedor
+# Copy the rest of the application to the container
 COPY . .
 
-# Expone el puerto en el que la aplicación va a escuchar
+# Expose the port the app runs on
 EXPOSE 3001
 
-# Define el comando para iniciar la aplicación
+# Run the application
 CMD ["npm", "start"]

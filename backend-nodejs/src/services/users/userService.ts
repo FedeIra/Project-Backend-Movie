@@ -16,7 +16,6 @@ import {
   toModelUserLogin,
 } from './entities/users.js';
 import { UserRegistration, User } from '../../models/users.js';
-import { ZodError } from 'zod';
 import { ClientError } from '../../../packages/errors/clientError.js';
 
 // Define service interface:

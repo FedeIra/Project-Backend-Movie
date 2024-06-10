@@ -59,7 +59,6 @@ backend-nodejs
 ├── package.json
 ├── package-lock.json
 ├── Dockerfile
-├── docker-compose.yml
 ├── tsconfig.json
 └── .env
 ```
@@ -131,9 +130,8 @@ Below, an image the architecture of the project is shown:
 - **Node.js**: JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **TypeScript**: A superset of JavaScript that adds static types to the language.
 - **Fastify**: A fast and low overhead web framework for Node.js.
-- **MongoDB**: A NoSQL database that stores data in flexible, JSON-like documents.
+- **MongoDB**: A NoSQL database that stores data in flexible, JSON-like documents. For this project im using MongoDB Atlas. MongoDB Atlas is a fully managed cloud database service.
 - **Docker**: A platform for developing, shipping, and running applications in containers.
-- **Docker Compose**: A tool for defining and running multi-container Docker applications.
 - **JWT**: JSON Web Tokens are an open, industry-standard RFC 7519 method for representing claims securely between two parties.
 - **TMDB API**: The Movie Database (TMDb) API is a resource for any developers that want to integrate movie, TV show, and cast data in their application.
 
@@ -145,8 +143,6 @@ Below, an image the architecture of the project is shown:
 
 3. cd backend-nodejs
 
-4. npm install
-
 ## Environment Variables
 
 Create a `.env` file in the root of the project and add the following environment variables. You can check for such purpose the `.env.example` file in the root of the project:
@@ -154,46 +150,38 @@ Create a `.env` file in the root of the project and add the following environmen
 ```bash
 PORT=3000
 HOST=0.0.0.0
-TMDB_API_KEY=your-tmdb-api-key
+TMDB_API_KEY=tmdb-api-key
 TMDB_BASE_URL=https://api.themoviedb.org/3
-CONNECTION_STRING_DB=your_mongodb_connection_string
+CONNECTION_STRING_DB=mongodb_connection_string
 DB_NAME=Movie-Challenge
 USER_COLLECTION_NAME=Users
-JWT_SECRET=your-secret-key
+JWT_SECRET=secret-key
 ```
 
 ## Running the Project
 
-To run the project, you need to have a MongoDB instance running on your machine. You can either install MongoDB locally or use a cloud-based MongoDB service like MongoDB Atlas.
-
 ### Using Docker:
 
-1. Create a `.env` as previous described.
+1. Create a `.env` as described previously.
 
 2. Check Docker is installed and running on your machine.
 
-3. Build and run the containers:
+3. Build and run the containers in backend-nodejs directory with the following commands:
 
 ```bash
-docker-compose up --build
+docker build -t movie-challenge-backend .
+docker run -p 3000:3000 --env-file movie-challenge-backend
 ```
 
 ### Without Docker:
 
-1. Create a `.env` as previous described.
+1. Create a `.env` as described previously.
 
-2. Ensure MongoDB is installed and running.
-
-3. Run the following command to start the server:
-
-```bash
-npm run dev
-```
-
-You can also run:
+2. Run either of following commands to start the server:
 
 ```bash
 npm start
+npm run dev
 ```
 
 ## API Endpoints
