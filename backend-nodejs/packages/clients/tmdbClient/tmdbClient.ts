@@ -1,18 +1,20 @@
-// Import external packages:
+// External packages:
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { z } from 'zod';
 
-// Import internal packages:
+// Internal modules:
 import config from '../../../packages/env/config';
 
+// Define types for TMDB client:
 type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 
 type SendParams = {
   method: HttpMethod;
   path: string;
-  payload: unknown;
+  payload?: unknown;
 };
 
+// Define TMDB error schema:
 const TMDBErrorSchema = z.object({
   error: z.object({
     code: z.string(),
@@ -20,15 +22,18 @@ const TMDBErrorSchema = z.object({
   }),
 });
 
+// Define TMDB client class:
 export class TmdbClient {
   private axios: AxiosInstance;
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = config.tmdbBaseUrl || '';
+    this.baseUrl =
+      config.tmdbBaseUrl ?? 'add https://api.themoviedb.org/3 to .env file';
     this.axios = axios.create();
   }
 
+  // Method for sending requests to TMDB API:
   async send<T = unknown>(params: SendParams): Promise<T> {
     const { method, path, payload } = params;
     const fullUrl = `${this.baseUrl}${path}`;
@@ -58,23 +63,25 @@ export class TmdbClient {
           return res.data;
         }
         default: {
-          throw Error(`Not implemented`);
+          throw Error(`HTTP method ${method} not implemented`);
         }
       }
     } catch (error) {
+      // Handle errors from TMDB API:
       if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
+        const status = error.response?.status;
+        const data = error.response?.data;
+        if (status === 401) {
           throw new Error(`TMDB unauthorized the request`);
         }
-        const data = error.response?.data;
         if (data !== undefined) {
           try {
             const apiError = TMDBErrorSchema.parse(data);
             throw new Error(
-              `rawg api error: ${apiError.error.code} - ${apiError.error.message}`
+              `TMDB API error: ${apiError.error.code} - ${apiError.error.message}`
             );
           } catch {
-            throw new Error(`TMDB api error: ${data}`);
+            throw new Error(`TMDB API error: ${JSON.stringify(data)}`);
           }
         }
       }

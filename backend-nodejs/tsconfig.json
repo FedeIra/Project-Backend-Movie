@@ -6,7 +6,9 @@
     "moduleResolution": "Node",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./node_modules/@types", "./packages/fastify/fastify.d.ts"]
   },
   "ts-node": {
     "experimentalSpecifierResolution": "node",
