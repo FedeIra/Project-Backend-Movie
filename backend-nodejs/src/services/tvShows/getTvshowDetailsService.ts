@@ -26,7 +26,7 @@ export class TMDBTvShowService implements TvShowService {
     try {
       const tmdbResponse: TmdbTvshowDetailsDTO = await this.client.send({
         method: 'get',
-        path: `/tv/${tvShowId}?api_key=${config.tmdbApiKey}`,
+        path: `tv/${tvShowId}?api_key=${config.tmdbApiKey}`,
       });
 
       // 2) Validate response:
