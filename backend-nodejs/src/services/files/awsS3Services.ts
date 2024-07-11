@@ -4,7 +4,7 @@
 // Internal packages:
 import { awsS3 } from '../../../packages/clients/awsClient/awsClient';
 import { ListObjectsV2Output } from 'aws-sdk/clients/s3';
-import { config } from '../../../packages/env/config';
+import config from '../../../packages/env/config';
 // import { ClientError } from '../../../packages/errors/clientError.js';
 
 // Define service interface:
@@ -15,12 +15,14 @@ export interface AwsS3Service {
 // Define service class:
 export class S3ServiceImpl implements AwsS3Service {
   // Method to list files in the bucket
-  async listFiles(): Promise<AWS.S3.ListObjectsV2Output> {
+  async listFiles(): Promise<ListObjectsV2Output> {
     const params = {
       Bucket: config.aws.bucketName,
     };
 
-    const files = await awsS3.listObjectsV2(params).promise();
+    const files: ListObjectsV2Output = await awsS3
+      .listObjectsV2(params)
+      .promise();
 
     return files;
   }

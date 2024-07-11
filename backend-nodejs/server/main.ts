@@ -12,6 +12,7 @@ import {
   moviesHandlers,
   tvShowDetailsHandlers,
   usersHandlers,
+  filesHandlers,
 } from './handlers/handlerIndex.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../src/services/users/userService.js';
@@ -23,6 +24,8 @@ import { TMDBTvShowService } from '../src/services/tvShows/getTvshowDetailsServi
 import { GetTvshowDetailsUseCase } from '../src/useCases/tvShows/getTvshowsDetaillsUseCase.js';
 import { AddToWishlistUseCase } from '../src/useCases/users/addToWishlistUseCase.js';
 import { UnauthorizedError } from '../packages/errors/unauthorizedError.js';
+import { S3ServiceImpl } from '../src/services/files/awsS3Services.js';
+import { GetFilesListUseCase } from '../src/useCases/files/getListFilesUseCase.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -75,6 +78,8 @@ const registerUserUseCase = new RegisterUserUseCase(dataBaseServices);
 const loginUserUseCase = new LoginUserUseCase(dataBaseServices);
 const refreshTokenUseCase = new RefreshTokenUseCase(dataBaseServices);
 const addToWishlistUseCase = new AddToWishlistUseCase(dataBaseServices);
+const awsS3Service = new S3ServiceImpl();
+const getFilesListUseCase = new GetFilesListUseCase(awsS3Service);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -96,6 +101,11 @@ usersHandlers(fastifyServer, {
   loginUserUseCase,
   refreshTokenUseCase,
   addToWishlistUseCase,
+});
+
+filesHandlers(fastifyServer, {
+  awsS3Service,
+  getFilesListUseCase,
 });
 
 setupErrorHandler(fastifyServer);

@@ -20,6 +20,9 @@ import { GetTvshowDetailsUseCase } from '../../src/useCases/tvShows/getTvshowsDe
 import { getTvshowDetailsHandler } from './getTvshowDetailsHandler.js';
 import { addToWishlistHandler } from './addToWishlistHandler.js';
 import { AddToWishlistUseCase } from '../../src/useCases/users/addToWishlistUseCase.js';
+import { GetFilesListUseCase } from '../../src/useCases/files/getListFilesUseCase.js';
+import { AwsS3Service } from '../../src/services/files/awsS3Services.js';
+import { getFilesHandler } from './getFilesHandler.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -45,6 +48,12 @@ type UserDependencies = {
   addToWishlistUseCase: AddToWishlistUseCase;
 };
 
+// Define dependencies for files handler:
+type FilesDependencies = {
+  awsS3Service: AwsS3Service;
+  getFilesListUseCase: GetFilesListUseCase;
+};
+
 // Define movies handler:
 export const moviesHandlers = (
   server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
@@ -59,6 +68,14 @@ export const tvShowDetailsHandlers = (
   dependencies: TvShowDetailsDependencies
 ): void => {
   getTvshowDetailsHandler(server, dependencies.getTvshowDetailsUseCase);
+};
+
+// Define files handler:
+export const filesHandlers = (
+  server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
+  dependencies: FilesDependencies
+): void => {
+  getFilesHandler(server, dependencies.getFilesListUseCase);
 };
 
 // Define users handlers:
