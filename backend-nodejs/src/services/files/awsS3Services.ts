@@ -1,48 +1,29 @@
 // External packages:
-import { ZodError } from 'zod';
+// import { ZodError } from 'zod';
 
 // Internal packages:
 import { awsS3 } from '../../../packages/clients/awsClient/awsClient';
-import { ClientError } from '../../../packages/errors/clientError.js';
+import { ListObjectsV2Output } from 'aws-sdk/clients/s3';
+import { config } from '../../../packages/env/config';
+// import { ClientError } from '../../../packages/errors/clientError.js';
 
 // Define service interface:
 export interface AwsS3Service {
-  listFiles(): Promise<AWS.S3.ListObjectsV2Output>;
+  listFiles(): Promise<ListObjectsV2Output>;
 }
 
 // Define service class:
-export class FilesService implements AwsS3Service {
-  private bucketName: string;
-
-  constructor(bucketName: string) {
-    this.bucketName = bucketName;
-  }
-
+export class S3ServiceImpl implements AwsS3Service {
   // Method to list files in the bucket
   async listFiles(): Promise<AWS.S3.ListObjectsV2Output> {
     const params = {
-      Bucket: this.bucketName,
+      Bucket: config.aws.bucketName,
     };
 
-    return awsS3.listObjectsV2(params).promise();
+    const files = await awsS3.listObjectsV2(params).promise();
+
+    return files;
   }
 }
 
-// class AwsS3Service {
-//   private bucketName: string;
-
-//   constructor(bucketName: string) {
-//     this.bucketName = bucketName;
-//   }
-
-//   // Method to list files in the bucket
-//   async listFiles(): Promise<AWS.S3.ListObjectsV2Output> {
-//     const params = {
-//       Bucket: this.bucketName,
-//     };
-
-//     return awsS3.listObjectsV2(params).promise();
-//   }
-// }
-
-// export default AwsS3Service;
+export default S3ServiceImpl;
