@@ -26,8 +26,8 @@ import { UnauthorizedError } from '../packages/errors/unauthorizedError.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
-  port: Number(config.port) || 3001,
-  host: config.host || '0.0.0.0',
+  port: config.port,
+  host: config.host,
   cors: {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],

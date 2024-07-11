@@ -28,8 +28,7 @@ export class TmdbClient {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl =
-      config.tmdbBaseUrl ?? 'add https://api.themoviedb.org/3 to .env file';
+    this.baseUrl = config.tmdb.baseUrl;
     this.axios = axios.create();
   }
 

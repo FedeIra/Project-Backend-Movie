@@ -26,7 +26,7 @@ export class TMDBMoviesService implements MoviesService {
     try {
       const tmdbResponse: TmdbMovieDTO = await this.client.send({
         method: 'get',
-        path: `trending/movie/week?api_key=${config.tmdbApiKey}`,
+        path: `trending/movie/week?api_key=${config.tmdb.apiKey}`,
       });
 
       // 2) Validate response:

@@ -63,6 +63,6 @@ const userSchema: Schema<IUser> = new Schema(
 );
 
 export const UserModel = Mongoose.model(
-  config.usersCollection as string,
+  config.mongoDB.userCollectionName,
   userSchema
 );

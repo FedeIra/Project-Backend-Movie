@@ -28,9 +28,7 @@ export class DatabaseClient {
   // Method for connecting to the database:
   async connect(): Promise<void> {
     try {
-      await mongoose.connect(
-        config.connectionStringDb ?? 'add connection string to .env file'
-      );
+      await mongoose.connect(config.mongoDB.connectionString);
     } catch (error) {
       console.error(
         `Failed to connect to the database. More details as follows: ${error}.`
