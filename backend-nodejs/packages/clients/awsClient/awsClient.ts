@@ -10,6 +10,6 @@ AWS.config.update({
   region: config.aws.region,
 });
 
-export const s3 = new AWS.S3();
+export const awsS3 = new AWS.S3();
 // export const lambda = new AWS.Lambda();
 // export const dynamoDB = new AWS.DynamoDB.DocumentClient();
