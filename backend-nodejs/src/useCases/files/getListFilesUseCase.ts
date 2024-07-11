@@ -1,23 +1,24 @@
 // Internal modules:
-import { MoviesService } from '../../services/movies/getMoviesService.js';
-import { Movie } from '../../models/movies.js';
+// import { MoviesService } from '../../services/movies/getMoviesService.js';
+// import { Movie } from '../../models/movies.js';
+import { AwsS3Service } from '../../services/files/awsS3Services.js';
 
 // Define use case payload schema:
-export type GetMoviesUseCasePayload = {
-  filters: {
-    genre: string;
-    recommended: boolean;
-    year: number;
-  };
-  sorts: {
-    byDate: boolean;
-    byAverage: boolean;
-  };
-};
+// export type GetMoviesUseCasePayload = {
+//   filters: {
+//     genre: string;
+//     recommended: boolean;
+//     year: number;
+//   };
+//   sorts: {
+//     byDate: boolean;
+//     byAverage: boolean;
+//   };
+// };
 
 // Define use cases for getting movies:
 export class GetMoviesUseCase {
-  constructor(private moviesService: MoviesService) {}
+  constructor(private filesService: AwsS3Service) {}
 
   // Use case for getting movies:
   async getMovies(payload: GetMoviesUseCasePayload): Promise<Movie[]> {
