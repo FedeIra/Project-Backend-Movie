@@ -1,52 +1,16 @@
 // Internal modules:
-// import { MoviesService } from '../../services/movies/getMoviesService.js';
-// import { Movie } from '../../models/movies.js';
 import { AwsS3Service } from '../../services/files/awsS3Services.js';
+import { FilesS3 } from '../../models/files.js';
 
-// Define use cases for getting movies:
+// Define use cases for getting S3 bucket files list:
 export class GetFilesListUseCase {
   constructor(private filesService: AwsS3Service) {}
 
-  // Use case for getting movies:
-  async getFiles(): Promise<any> {
-    // 1) Get movies from service:
-    const filesList: any = await this.filesService.listFiles();
-
-    // 2) Apply filters and sorts:
-    // const filteredMovies: Movie[] = this.applyFilters(movies, payload);
-
-    // const filteredSortedMovies: Movie[] = this.applySorts(
-    //   filteredMovies,
-    //   payload
-    // );
+  // Use case for getting S3 bucket files list:
+  async getFiles(): Promise<FilesS3> {
+    // 1) Get files list from service:
+    const filesList: FilesS3 = await this.filesService.listFiles();
 
     return filesList;
   }
-
-  // Use case helper filter function:
-  // private applyFilters(
-  //   movies: Movie[],
-  //   payload: GetMoviesUseCasePayload
-  // ): Movie[] {
-  //   let filteredMovies: Movie[] = movies;
-
-  //   // Genre filter:
-  //   if (payload.filters.genre) {
-  //     filteredMovies = filteredMovies.filter((movie) =>
-  //       movie.genres.includes(payload.filters.genre)
-  //     );
-  //   }
-  //   // Recommended filter:
-  //   if (payload.filters.recommended) {
-  //     filteredMovies = filteredMovies.filter((movie) => movie.average >= 7);
-  //   }
-  //   // Year filter:
-  //   if (payload.filters.year) {
-  //     filteredMovies = filteredMovies.filter(
-  //       (movie) =>
-  //         new Date(movie.releaseDate).getFullYear() === payload.filters.year
-  //     );
-  //   }
-  //   return filteredMovies;
-  // }
 }

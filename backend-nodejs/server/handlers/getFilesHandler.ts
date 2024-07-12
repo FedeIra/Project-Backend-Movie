@@ -3,7 +3,7 @@ import { FastifyInstance } from 'fastify';
 
 // Internal modules:
 import { GetFilesListUseCase } from '../../src/useCases/files/getListFilesUseCase.js';
-// import { Movie } from '../../src/models/movies.js';
+import { FilesS3 } from '../../src/models/files.js';
 
 // Handler function:
 export const getFilesHandler = (
@@ -16,7 +16,7 @@ export const getFilesHandler = (
     async (request, response) => {
       try {
         // 1) Call use case:
-        const files: any = await getFilesUseCase.getFiles();
+        const files: FilesS3 = await getFilesUseCase.getFiles();
 
         return response.status(200).send(files);
       } catch (error) {
