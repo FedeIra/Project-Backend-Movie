@@ -6,12 +6,12 @@ import { GetFilesListUseCase } from '../../src/useCases/files/getListFilesUseCas
 import { FilesS3 } from '../../src/models/files.js';
 
 // Handler function:
-export const getFilesHandler = (
+export const getFilesListHandler = (
   fastifyServer: FastifyInstance,
   getFilesUseCase: GetFilesListUseCase
 ): void => {
   fastifyServer.get(
-    `/files`,
+    `/files-list`,
     { preValidation: [fastifyServer.authenticate] },
     async (request, response) => {
       try {

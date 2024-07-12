@@ -22,7 +22,9 @@ import { addToWishlistHandler } from './addToWishlistHandler.js';
 import { AddToWishlistUseCase } from '../../src/useCases/users/addToWishlistUseCase.js';
 import { GetFilesListUseCase } from '../../src/useCases/files/getListFilesUseCase.js';
 import { AwsS3Service } from '../../src/services/files/awsS3Services.js';
-import { getFilesHandler } from './getFilesHandler.js';
+import { getFilesListHandler } from './getFilesListHandler.js';
+import { getFileHandler } from './getFileHandler.js';
+import { GetFileUseCase } from '../../src/useCases/files/getFileUseCase.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -52,6 +54,7 @@ type UserDependencies = {
 type FilesDependencies = {
   awsS3Service: AwsS3Service;
   getFilesListUseCase: GetFilesListUseCase;
+  getFileUseCase: GetFileUseCase;
 };
 
 // Define movies handler:
@@ -75,7 +78,8 @@ export const filesHandlers = (
   server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
   dependencies: FilesDependencies
 ): void => {
-  getFilesHandler(server, dependencies.getFilesListUseCase);
+  getFilesListHandler(server, dependencies.getFilesListUseCase);
+  getFileHandler(server, dependencies.getFileUseCase);
 };
 
 // Define users handlers:

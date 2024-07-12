@@ -26,6 +26,7 @@ import { AddToWishlistUseCase } from '../src/useCases/users/addToWishlistUseCase
 import { UnauthorizedError } from '../packages/errors/unauthorizedError.js';
 import { S3ServiceImpl } from '../src/services/files/awsS3Services.js';
 import { GetFilesListUseCase } from '../src/useCases/files/getListFilesUseCase.js';
+import { GetFileUseCase } from '../src/useCases/files/getFileUseCase.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -80,6 +81,7 @@ const refreshTokenUseCase = new RefreshTokenUseCase(dataBaseServices);
 const addToWishlistUseCase = new AddToWishlistUseCase(dataBaseServices);
 const awsS3Service = new S3ServiceImpl();
 const getFilesListUseCase = new GetFilesListUseCase(awsS3Service);
+const getFileUseCase = new GetFileUseCase(awsS3Service);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -106,6 +108,7 @@ usersHandlers(fastifyServer, {
 filesHandlers(fastifyServer, {
   awsS3Service,
   getFilesListUseCase,
+  getFileUseCase,
 });
 
 setupErrorHandler(fastifyServer);

@@ -1,6 +1,8 @@
+// External packages:
+import { ListObjectsV2Output, GetObjectOutput } from 'aws-sdk/clients/s3';
+
 // Internal packages:
 import { awsS3 } from '../../../packages/clients/awsClient/awsClient';
-import { ListObjectsV2Output } from 'aws-sdk/clients/s3';
 import config from '../../../packages/env/config';
 import { FilesS3 } from '../../models/files';
 import { ClientError } from '../../../packages/errors/clientError.js';
@@ -8,6 +10,7 @@ import { ClientError } from '../../../packages/errors/clientError.js';
 // Define service interface:
 export interface AwsS3Service {
   listFiles(): Promise<FilesS3>;
+  getFile(fileName: string): Promise<Buffer>;
 }
 
 // Define service class:
@@ -28,6 +31,25 @@ export class S3ServiceImpl implements AwsS3Service {
       return filteredFiles;
     } catch (error) {
       throw new ClientError('Error listing AWS S3 files.', error);
+    }
+  }
+
+  async getFile(fileKey: string): Promise<Buffer> {
+    try {
+      const params = {
+        Bucket: config.aws.bucketName,
+        Key: fileKey,
+      };
+
+      const fileData: GetObjectOutput = await awsS3.getObject(params).promise();
+
+      if (fileData.Body && Buffer.isBuffer(fileData.Body)) {
+        return fileData.Body;
+      } else {
+        throw new ClientError('AWS files service incorrect response.');
+      }
+    } catch (error) {
+      throw new ClientError('AWS S3 service error.', error);
     }
   }
 
