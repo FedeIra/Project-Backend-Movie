@@ -6,16 +6,31 @@ import { awsS3 } from '../../../packages/clients/awsClient/awsClient';
 import config from '../../../packages/env/config';
 import { FilesS3 } from '../../models/files';
 import { ClientError } from '../../../packages/errors/clientError.js';
+import { UploadFileResponse } from '../../models/files';
+import {
+  s3UploadResponse,
+  s3UploadResponseSchema,
+  toModeUploadFileResponse,
+} from './entities/uploadFile';
+import { DeleteFileResponse } from '../../models/files';
+import {
+  s3DeleteResponse,
+  s3DeleteResponseSchema,
+  toModelDeleteFileResponse,
+} from './entities/deleteFile';
 
 // Define service interface:
 export interface AwsS3Service {
   listFiles(): Promise<FilesS3>;
+  // TODO: service to get data from S3 bucket with url
   getFile(fileName: string): Promise<Buffer>;
+  uploadFile(file: Buffer, fileName: string): Promise<UploadFileResponse>;
+  deleteFile(fileName: string): Promise<DeleteFileResponse>;
 }
 
 // Define service class:
 export class S3ServiceImpl implements AwsS3Service {
-  // Method to list files in the bucket
+  // Method to list files in S3 bucket
   async listFiles(): Promise<FilesS3> {
     try {
       const params = {
@@ -34,6 +49,7 @@ export class S3ServiceImpl implements AwsS3Service {
     }
   }
 
+  // Service to get file from S3 bucket:
   async getFile(fileKey: string): Promise<Buffer> {
     try {
       const params = {
@@ -50,6 +66,55 @@ export class S3ServiceImpl implements AwsS3Service {
       }
     } catch (error) {
       throw new ClientError('AWS S3 service error.', error);
+    }
+  }
+
+  // Service to upload file to S3 bucket:
+  async uploadFile(file: Buffer, keyName: string): Promise<UploadFileResponse> {
+    try {
+      const params = {
+        Bucket: config.aws.bucketName,
+        Key: keyName,
+        Body: file,
+      };
+
+      // 1) S3 service to upload file:
+      const s3Response: s3UploadResponse = await awsS3.upload(params).promise();
+
+      // 2) Validate response:
+      s3UploadResponseSchema.parse(s3Response);
+
+      // 3) Convert response to model
+      const uploadFileResponse: UploadFileResponse =
+        toModeUploadFileResponse(s3Response);
+
+      return uploadFileResponse;
+    } catch (error) {
+      throw new ClientError('Error uploading file to AWS S3.', error);
+    }
+  }
+
+  // Service to delete file from S3 bucket:
+  async deleteFile(fileName: string): Promise<DeleteFileResponse> {
+    try {
+      const params = {
+        Bucket: config.aws.bucketName,
+        Key: fileName,
+      };
+
+      // 1) S3 service to delete file:
+      const response: any = await awsS3.deleteObject(params).promise();
+
+      // 2) Validate response:
+      s3DeleteResponseSchema.parse(response);
+
+      // 3) Convert response to model
+      const deleteFileResponse: DeleteFileResponse =
+        toModelDeleteFileResponse(response);
+
+      return deleteFileResponse;
+    } catch (error) {
+      throw new ClientError('Error deleting file from AWS S3.', error);
     }
   }
 

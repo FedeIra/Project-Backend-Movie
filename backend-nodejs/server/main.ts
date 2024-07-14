@@ -2,6 +2,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
 import fastifyJwt from '@fastify/jwt';
+import fastifyMultipart from '@fastify/multipart';
 
 // internal packages:
 import config from '../packages/env/config.js';
@@ -27,6 +28,8 @@ import { UnauthorizedError } from '../packages/errors/unauthorizedError.js';
 import { S3ServiceImpl } from '../src/services/files/awsS3Services.js';
 import { GetFilesListUseCase } from '../src/useCases/files/getListFilesUseCase.js';
 import { GetFileUseCase } from '../src/useCases/files/getFileUseCase.js';
+import { UploadFileUseCase } from '../src/useCases/files/uploadFileUseCase.js';
+import { DeleteFileUseCase } from '../src/useCases/files/deleteFileUseCase.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -46,6 +49,10 @@ const buildServer = (): FastifyInstance => {
   fastifyServer.register(cors, fastifyServerConfig.cors);
   fastifyServer.register(fastifyJwt, {
     secret: config.jwtSecret as string,
+  });
+  // Register the multipart plugin
+  fastifyServer.register(fastifyMultipart, {
+    attachFieldsToBody: true,
   });
   // Middleware for authentication with jwt
   fastifyServer.decorate(
@@ -82,6 +89,8 @@ const addToWishlistUseCase = new AddToWishlistUseCase(dataBaseServices);
 const awsS3Service = new S3ServiceImpl();
 const getFilesListUseCase = new GetFilesListUseCase(awsS3Service);
 const getFileUseCase = new GetFileUseCase(awsS3Service);
+const uploadFileUseCase = new UploadFileUseCase(awsS3Service);
+const deleteFileUseCase = new DeleteFileUseCase(awsS3Service);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -109,6 +118,8 @@ filesHandlers(fastifyServer, {
   awsS3Service,
   getFilesListUseCase,
   getFileUseCase,
+  uploadFileUseCase,
+  deleteFileUseCase,
 });
 
 setupErrorHandler(fastifyServer);

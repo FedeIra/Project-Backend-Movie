@@ -25,6 +25,10 @@ import { AwsS3Service } from '../../src/services/files/awsS3Services.js';
 import { getFilesListHandler } from './getFilesListHandler.js';
 import { getFileHandler } from './getFileHandler.js';
 import { GetFileUseCase } from '../../src/useCases/files/getFileUseCase.js';
+import { uploadFileHandler } from './uploadFileHandler.js';
+import { UploadFileUseCase } from '../../src/useCases/files/uploadFileUseCase.js';
+import { deleteFileHandler } from './deleteFileHandler.js';
+import { DeleteFileUseCase } from '../../src/useCases/files/deleteFileUseCase.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -55,6 +59,8 @@ type FilesDependencies = {
   awsS3Service: AwsS3Service;
   getFilesListUseCase: GetFilesListUseCase;
   getFileUseCase: GetFileUseCase;
+  uploadFileUseCase: UploadFileUseCase;
+  deleteFileUseCase: DeleteFileUseCase;
 };
 
 // Define movies handler:
@@ -80,6 +86,8 @@ export const filesHandlers = (
 ): void => {
   getFilesListHandler(server, dependencies.getFilesListUseCase);
   getFileHandler(server, dependencies.getFileUseCase);
+  uploadFileHandler(server, dependencies.uploadFileUseCase);
+  deleteFileHandler(server, dependencies.deleteFileUseCase);
 };
 
 // Define users handlers:
