@@ -23,3 +23,7 @@ export type DeleteFileResponse = {
   versionIdDeletedDocument?: string;
   message: string;
 };
+
+export type GetFileUrlResponse = {
+  url: string;
+};

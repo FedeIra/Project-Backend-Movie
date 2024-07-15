@@ -29,6 +29,8 @@ import { uploadFileHandler } from './uploadFileHandler.js';
 import { UploadFileUseCase } from '../../src/useCases/files/uploadFileUseCase.js';
 import { deleteFileHandler } from './deleteFileHandler.js';
 import { DeleteFileUseCase } from '../../src/useCases/files/deleteFileUseCase.js';
+import { getFileUrlHandler } from './getFileUrlHandler.js';
+import { GetFileUrlUseCase } from '../../src/useCases/files/getUrlFileUseCase.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -61,6 +63,7 @@ type FilesDependencies = {
   getFileUseCase: GetFileUseCase;
   uploadFileUseCase: UploadFileUseCase;
   deleteFileUseCase: DeleteFileUseCase;
+  getFileUrlUseCase: GetFileUrlUseCase;
 };
 
 // Define movies handler:
@@ -88,6 +91,7 @@ export const filesHandlers = (
   getFileHandler(server, dependencies.getFileUseCase);
   uploadFileHandler(server, dependencies.uploadFileUseCase);
   deleteFileHandler(server, dependencies.deleteFileUseCase);
+  getFileUrlHandler(server, dependencies.getFileUrlUseCase);
 };
 
 // Define users handlers:

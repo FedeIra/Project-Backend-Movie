@@ -30,6 +30,7 @@ import { GetFilesListUseCase } from '../src/useCases/files/getListFilesUseCase.j
 import { GetFileUseCase } from '../src/useCases/files/getFileUseCase.js';
 import { UploadFileUseCase } from '../src/useCases/files/uploadFileUseCase.js';
 import { DeleteFileUseCase } from '../src/useCases/files/deleteFileUseCase.js';
+import { GetFileUrlUseCase } from '../src/useCases/files/getUrlFileUseCase.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -91,6 +92,7 @@ const getFilesListUseCase = new GetFilesListUseCase(awsS3Service);
 const getFileUseCase = new GetFileUseCase(awsS3Service);
 const uploadFileUseCase = new UploadFileUseCase(awsS3Service);
 const deleteFileUseCase = new DeleteFileUseCase(awsS3Service);
+const getFileUrlUseCase = new GetFileUrlUseCase(awsS3Service);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -120,6 +122,7 @@ filesHandlers(fastifyServer, {
   getFileUseCase,
   uploadFileUseCase,
   deleteFileUseCase,
+  getFileUrlUseCase,
 });
 
 setupErrorHandler(fastifyServer);

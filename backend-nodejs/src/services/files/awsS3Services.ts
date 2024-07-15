@@ -4,17 +4,21 @@ import { ListObjectsV2Output, GetObjectOutput } from 'aws-sdk/clients/s3';
 // Internal packages:
 import { awsS3 } from '../../../packages/clients/awsClient/awsClient';
 import config from '../../../packages/env/config';
-import { FilesS3 } from '../../models/files';
+
 import { ClientError } from '../../../packages/errors/clientError.js';
-import { UploadFileResponse } from '../../models/files';
+import {
+  FilesS3,
+  UploadFileResponse,
+  DeleteFileResponse,
+  GetFileUrlResponse,
+} from '../../models/files';
 import {
   s3UploadResponse,
   s3UploadResponseSchema,
   toModeUploadFileResponse,
 } from './entities/uploadFile';
-import { DeleteFileResponse } from '../../models/files';
+
 import {
-  s3DeleteResponse,
   s3DeleteResponseSchema,
   toModelDeleteFileResponse,
 } from './entities/deleteFile';
@@ -22,7 +26,7 @@ import {
 // Define service interface:
 export interface AwsS3Service {
   listFiles(): Promise<FilesS3>;
-  // TODO: service to get data from S3 bucket with url
+  getFileUrl(fileName: string): Promise<GetFileUrlResponse>;
   getFile(fileName: string): Promise<Buffer>;
   uploadFile(file: Buffer, fileName: string): Promise<UploadFileResponse>;
   deleteFile(fileName: string): Promise<DeleteFileResponse>;
@@ -30,7 +34,7 @@ export interface AwsS3Service {
 
 // Define service class:
 export class S3ServiceImpl implements AwsS3Service {
-  // Method to list files in S3 bucket
+  // Service to list files in S3 bucket
   async listFiles(): Promise<FilesS3> {
     try {
       const params = {
@@ -46,6 +50,26 @@ export class S3ServiceImpl implements AwsS3Service {
       return filteredFiles;
     } catch (error) {
       throw new ClientError('Error listing AWS S3 files.', error);
+    }
+  }
+
+  // Service to get url from S3 bucket:
+  async getFileUrl(fileKey: string): Promise<GetFileUrlResponse> {
+    try {
+      const params = {
+        Bucket: config.aws.bucketName,
+        Key: fileKey,
+      };
+
+      const url: string = awsS3.getSignedUrl('getObject', params);
+
+      const urlResponse = {
+        url,
+      };
+
+      return urlResponse;
+    } catch (error) {
+      throw new ClientError('AWS S3 service error.', error);
     }
   }
 
