@@ -8,8 +8,13 @@ The API provides endpoints to:
 - Fetch TV show details,
 - Register users,
 - Login users,
-- Refresh JWT access token, and
-- Add movies or TV shows to a user's wishlist.
+- Refresh JWT access token,
+- Add movies or TV shows to a user's wishlist,
+- Upload file to AWS S3 bucket,
+- Get files list from AWS S3 bucket,
+- Get file url from AWS S3 bucket,
+- Get file from AWS S3 bucket, and
+- Delete file in AWS S3 bucket.
 
 The project follows clean architecture principles to ensure a well-organized and maintainable codebase.
 
@@ -33,6 +38,7 @@ Below is the organized structure of folders and files in the project:
 backend-nodejs
 ├── packages
 │    ├── clients
+│    │   ├── awsClient
 │    │   ├── tmdbClient
 │    │   └── dataBaseClient
 │    ├── env
@@ -49,10 +55,12 @@ backend-nodejs
 │   ├── models
 │   │   └── ...
 │   ├── services
+│   │   ├── files
 │   │   ├── movies
 │   │   ├── tvShows
 │   │   └── users
 │   └── useCases
+│       ├── files
 │       ├── movies
 │       ├── tvShows
 │       └── users
@@ -74,6 +82,7 @@ The project is divided into three main layers:
 ```json
 ├── server
 │   ├── handlers
+│   |   ├── addToWishlistHandler.ts
 │   │   └── ...
 │   ├── errors.ts
 │   └── main.ts
@@ -83,6 +92,7 @@ The project is divided into three main layers:
 
 ```json
 │   └── useCases
+│       ├── files
 │       ├── movies
 │       ├── tvShows
 │       └── users
@@ -92,6 +102,7 @@ The project is divided into three main layers:
 
 ```json
 │   ├── services
+│   │   ├── files
 │   │   ├── movies
 │   │   ├── tvShows
 │   │   └── users
@@ -134,6 +145,7 @@ Below, an image the architecture of the project is shown:
 - **Docker**: A platform for developing, shipping, and running applications in containers.
 - **JWT**: JSON Web Tokens are an open, industry-standard RFC 7519 method for representing claims securely between two parties.
 - **TMDB API**: The Movie Database (TMDb) API is a resource for any developers that want to integrate movie, TV show, and cast data in their application.
+- **AWS S3**: Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security, and performance.
 
 ## Installation
 
@@ -150,12 +162,20 @@ Create a `.env` file in the root of the project and add the following environmen
 ```bash
 PORT=3000
 HOST=0.0.0.0
+
 TMDB_API_KEY=tmdb-api-key
 TMDB_BASE_URL=https://api.themoviedb.org/3
+
 CONNECTION_STRING_DB=mongodb_connection_string
 DB_NAME=Movie-Challenge
 USER_COLLECTION_NAME=Users
+
 JWT_SECRET=secret-key
+
+AWS_ACCESS_KEY=aws-access-key-id
+AWS_SECRET_KEY=aws-secret-access-key
+AWS_REGION=aws-region
+AWS_BUCKET_NAME=aws-bucket-name
 ```
 
 ## Running the Project
@@ -420,6 +440,114 @@ Example of response:
   ```json
   {
     "message": "Added to wishlist. Enjoy!"
+  }
+  ```
+
+- Upload File to AWS S3 Bucket
+
+  - URL: /file/:keyName
+  - Method: POST
+  - Authorization Header:
+
+    ```json
+      Bearer Token <token>
+    ```
+
+  - Body (form-data):
+
+  ```json
+  {
+    "file": File
+  }
+  ```
+
+  Example of response:
+
+  ```json
+  {
+    "key": "Ejemplo",
+    "bucket": "certificates-Ejemplo",
+    "url": "https://certificates-Ejemplo.aws.zone.amazonaws.com/Ejemplo",
+    "message": "File uploaded successfully."
+  }
+  ```
+
+- Get Files List from AWS S3 Bucket
+
+  - URL: /files-list
+  - Method: GET
+  - Authorization Header:
+
+    ```json
+      Bearer Token <token>
+    ```
+
+  Example of response:
+
+  ```json
+  {
+    "bucketName": "certificates-example",
+    "totalFiles": 15,
+    "files": [
+        {
+            "name": "Certificate.Example.pdf",
+            "lastUpdated": "2024-06-25T18:04:07.000Z",
+            "size": 214123
+        },
+    ...
+    ]
+  }
+  ```
+
+- Get File URL from AWS S3 Bucket
+
+  - URL: /fileUrl/:fileKey
+  - Method: GET
+  - Authorization Header:
+
+    ```json
+      Bearer Token <token>
+    ```
+
+  Example of response:
+
+      ```json
+      {
+        "url": "https://certificates-Ejemplo.aws.zone.amazonaws.com/Ejemplo"
+      }
+      ```
+
+- Get File from AWS S3 Bucket
+
+  - URL: /file/:fileKey
+  - Method: GET
+  - Authorization Header:
+
+    ```json
+      Bearer Token <token>
+    ```
+
+    Example of response:
+
+    ![File Response](./assetsDocumentation/fileResponse.png)
+
+- Delete File in AWS S3 Bucket
+
+  - URL: /file/:fileKey
+  - Method: DELETE
+  - Authorization Header:
+
+    ```json
+      Bearer Token <token>
+    ```
+
+  Example of response:
+
+  ```json
+  {
+    "deleted": true,
+    "versionIdDeletedDocument": "iLm1245T6asdfj234T4xDiBrdszHth",
+    "message": "File deleted successfully."
   }
   ```
 
