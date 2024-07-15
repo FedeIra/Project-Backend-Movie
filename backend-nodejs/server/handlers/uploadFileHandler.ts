@@ -31,9 +31,12 @@ export const uploadFileHandler = (
         // 3) Get file name from request:
         const keyName: string = request.params.keyName;
 
+        // Get content type:
+        const contentType: string = file.mimetype;
+
         // 4) Call use case:
         const responseUpload: UploadFileResponse =
-          await uploadFileUseCase.uploadFile(fileBuffer, keyName);
+          await uploadFileUseCase.uploadFile(fileBuffer, keyName, contentType);
 
         return response.status(200).send(responseUpload);
       } catch (error) {

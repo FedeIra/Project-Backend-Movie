@@ -7,11 +7,16 @@ export class UploadFileUseCase {
   constructor(private filesService: AwsS3Service) {}
 
   // Use case for getting S3 bucket file:
-  async uploadFile(file: Buffer, keyName: string): Promise<UploadFileResponse> {
+  async uploadFile(
+    file: Buffer,
+    keyName: string,
+    contentType: string
+  ): Promise<UploadFileResponse> {
     // 1) Upload file with service:
     const response: UploadFileResponse = await this.filesService.uploadFile(
       file,
-      keyName
+      keyName,
+      contentType
     );
 
     return response;

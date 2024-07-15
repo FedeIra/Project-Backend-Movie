@@ -28,7 +28,11 @@ export interface AwsS3Service {
   listFiles(): Promise<FilesS3>;
   getFileUrl(fileName: string): Promise<GetFileUrlResponse>;
   getFile(fileName: string): Promise<Buffer>;
-  uploadFile(file: Buffer, fileName: string): Promise<UploadFileResponse>;
+  uploadFile(
+    file: Buffer,
+    fileName: string,
+    contentType: string
+  ): Promise<UploadFileResponse>;
   deleteFile(fileName: string): Promise<DeleteFileResponse>;
 }
 
@@ -56,15 +60,23 @@ export class S3ServiceImpl implements AwsS3Service {
   // Service to get url from S3 bucket:
   async getFileUrl(fileKey: string): Promise<GetFileUrlResponse> {
     try {
-      const params = {
-        Bucket: config.aws.bucketName,
-        Key: fileKey,
-      };
+      // const params = {
+      //   Bucket: config.aws.bucketName,
+      //   Key: fileKey,
+      // };
 
-      const url: string = awsS3.getSignedUrl('getObject', params);
+      // const url: string = awsS3.getSignedUrl('getObject', params);
 
-      const urlResponse = {
-        url,
+      // const urlResponse = {
+      //   url,
+      // };
+
+      // 1) S3 service to get file url:
+      const urlResponse: GetFileUrlResponse = {
+        url: `https://${config.aws.bucketName}.s3.${config.aws.region}.amazonaws.com/${fileKey}`.replace(
+          /\s/g,
+          '+'
+        ),
       };
 
       return urlResponse;
@@ -94,12 +106,25 @@ export class S3ServiceImpl implements AwsS3Service {
   }
 
   // Service to upload file to S3 bucket:
-  async uploadFile(file: Buffer, keyName: string): Promise<UploadFileResponse> {
+  async uploadFile(
+    file: Buffer,
+    keyName: string,
+    contentType: string
+  ): Promise<UploadFileResponse> {
     try {
+      if (
+        !keyName.toLowerCase().endsWith('.pdf') &&
+        contentType === 'application/pdf'
+      ) {
+        keyName += '.pdf';
+      }
+
       const params = {
         Bucket: config.aws.bucketName,
         Key: keyName,
         Body: file,
+        ACL: 'public-read',
+        ContentType: contentType,
       };
 
       // 1) S3 service to upload file:
