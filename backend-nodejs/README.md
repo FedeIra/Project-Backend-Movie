@@ -10,7 +10,7 @@ The API provides endpoints to:
 - Login users,
 - Refresh JWT access token,
 - Add movies or TV shows to a user's wishlist,
-- Upload file to AWS S3 bucket,
+- Upload file to AWS S3 bucket and notify by email,
 - Get files list from AWS S3 bucket,
 - Get file url from AWS S3 bucket,
 - Get file from AWS S3 bucket, and
@@ -36,6 +36,10 @@ Below is the organized structure of folders and files in the project:
 
 ```
 backend-nodejs
+├── lambda
+│    └── notify-on-upload
+│          ├── index.js
+│          └── package.json
 ├── packages
 │    ├── clients
 │    │   ├── awsClient
@@ -108,6 +112,22 @@ The project is divided into three main layers:
 │   │   └── users
 ```
 
+4. **Models**: This layer contains the models that represent the core business objects of the application. Models are independent of the data access layer objects (entities).
+
+```json
+│   ├── models
+│   │   └── ...
+```
+
+5. **Lambda folder**: The lambda folder contains the code for the AWS Lambda function that is triggered when a file is uploaded to the S3 bucket. The lambda function sends an email notification when a new file is uploaded. Please note that the lambda function is not part of the main application and is only used to demonstrate the integration with AWS services. The lambda function is deployed separately from the main application. The lambda function is triggered by an S3 event and sends an email notification using the AWS SES service. The lambda function is written in Node.js and uses email.js library to send emails.
+
+```json
+├── lambda
+│    └── notify-on-upload
+│          ├── index.js
+│          └── package.json
+```
+
 **Example of flow:**
 
 Here is a brief overview of how a request flows through the system:
@@ -140,12 +160,15 @@ Below, an image the architecture of the project is shown:
 
 - **Node.js**: JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **TypeScript**: A superset of JavaScript that adds static types to the language.
+- **Javascript**: A high-level, interpreted programming language that conforms to the ECMAScript specification. In this project is used only for the lambda function.
 - **Fastify**: A fast and low overhead web framework for Node.js.
 - **MongoDB**: A NoSQL database that stores data in flexible, JSON-like documents. For this project im using MongoDB Atlas. MongoDB Atlas is a fully managed cloud database service.
 - **Docker**: A platform for developing, shipping, and running applications in containers.
 - **JWT**: JSON Web Tokens are an open, industry-standard RFC 7519 method for representing claims securely between two parties.
 - **TMDB API**: The Movie Database (TMDb) API is a resource for any developers that want to integrate movie, TV show, and cast data in their application.
 - **AWS S3**: Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, security, and performance.
+- **AWS Lambda**: AWS Lambda lets you run code without provisioning or managing servers.
+- **Email.js**: A Node.js module for sending emails using SMTP.
 
 ## Installation
 
@@ -471,6 +494,10 @@ Example of response:
     "message": "File uploaded successfully."
   }
   ```
+
+Moreover, when a file is uploaded to the S3 bucket, an email notification is sent to the developer. The email notification is sent by an AWS Lambda function that is triggered by an S3 event. Below, an example of the email notification is shown:
+
+![Email Example](./assetsDocumentation/EmailExample.png)
 
 - Get Files List from AWS S3 Bucket
 

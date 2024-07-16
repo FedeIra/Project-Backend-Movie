@@ -1,0 +1,9 @@
+{
+  "name": "lambda-emailjs-notification",
+  "version": "1.0.0",
+  "description": "Send email using EmailJS when a file is uploaded to AWS S3.",
+  "main": "index.js",
+  "dependencies": {
+    "@emailjs/nodejs": "^4.0.4"
+  }
+}
