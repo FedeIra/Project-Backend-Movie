@@ -18,6 +18,10 @@ export class DynamoDBServiceImpl implements AwsDynamoDBService {
       };
 
       const response = await awsDynamoDB.put(params).promise();
+      console.log(
+        '🚀 ~ DynamoDBServiceImpl ~ createDocument ~ response:',
+        response
+      );
 
       return response;
     } catch (error) {

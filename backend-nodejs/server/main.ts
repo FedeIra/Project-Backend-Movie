@@ -14,6 +14,7 @@ import {
   tvShowDetailsHandlers,
   usersHandlers,
   filesHandlers,
+  documentHandlers,
 } from './handlers/handlerIndex.js';
 import { DatabaseClient } from '../packages/clients/dataBaseClient/databaseClient.js';
 import { DataBaseServices } from '../src/services/users/userService.js';
@@ -31,6 +32,8 @@ import { GetFileUseCase } from '../src/useCases/files/getFileUseCase.js';
 import { UploadFileUseCase } from '../src/useCases/files/uploadFileUseCase.js';
 import { DeleteFileUseCase } from '../src/useCases/files/deleteFileUseCase.js';
 import { GetFileUrlUseCase } from '../src/useCases/files/getUrlFileUseCase.js';
+import { CreateFileDocumentUseCase } from '../src/useCases/database/createFileDocument.js';
+import { DynamoDBServiceImpl } from '../src/services/files/awsDynamoDBServices.js';
 
 // Fastify server configuration:
 const fastifyServerConfig = {
@@ -93,6 +96,11 @@ const getFileUseCase = new GetFileUseCase(awsS3Service);
 const uploadFileUseCase = new UploadFileUseCase(awsS3Service);
 const deleteFileUseCase = new DeleteFileUseCase(awsS3Service);
 const getFileUrlUseCase = new GetFileUrlUseCase(awsS3Service);
+const awsDynamoDBService = new DynamoDBServiceImpl();
+const createFileDocumentUseCase = new CreateFileDocumentUseCase(
+  awsDynamoDBService,
+  awsS3Service
+);
 
 // Handlers setup:
 moviesHandlers(fastifyServer, {
@@ -123,6 +131,12 @@ filesHandlers(fastifyServer, {
   uploadFileUseCase,
   deleteFileUseCase,
   getFileUrlUseCase,
+});
+
+documentHandlers(fastifyServer, {
+  awsDynamoDBService,
+  awsS3Service,
+  createFileDocumentUseCase,
 });
 
 setupErrorHandler(fastifyServer);

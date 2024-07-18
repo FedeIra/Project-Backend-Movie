@@ -31,6 +31,9 @@ import { deleteFileHandler } from './deleteFileHandler.js';
 import { DeleteFileUseCase } from '../../src/useCases/files/deleteFileUseCase.js';
 import { getFileUrlHandler } from './getFileUrlHandler.js';
 import { GetFileUrlUseCase } from '../../src/useCases/files/getUrlFileUseCase.js';
+import { CreateFileDocumentUseCase } from '../../src/useCases/database/createFileDocument.js';
+import { createFileDocumentHandler } from './createFileDocumentHandler.js';
+import { AwsDynamoDBService } from '../../src/services/files/awsDynamoDBServices.js';
 
 // Define dependencies for movies handler:
 type MovieDependencies = {
@@ -64,6 +67,13 @@ type FilesDependencies = {
   uploadFileUseCase: UploadFileUseCase;
   deleteFileUseCase: DeleteFileUseCase;
   getFileUrlUseCase: GetFileUrlUseCase;
+};
+
+// Define dependencies for database documents handler:
+type DocumentDependencies = {
+  awsDynamoDBService: AwsDynamoDBService;
+  awsS3Service: AwsS3Service;
+  createFileDocumentUseCase: CreateFileDocumentUseCase;
 };
 
 // Define movies handler:
@@ -103,4 +113,12 @@ export const usersHandlers = (
   loginHandler(server, dependencies.loginUserUseCase);
   refreshTokenHandler(server, dependencies.refreshTokenUseCase);
   addToWishlistHandler(server, dependencies.addToWishlistUseCase);
+};
+
+// Define documents handler:
+export const documentHandlers = (
+  server: FastifyInstance<Server, IncomingMessage, ServerResponse>,
+  dependencies: DocumentDependencies
+): void => {
+  createFileDocumentHandler(server, dependencies.createFileDocumentUseCase);
 };

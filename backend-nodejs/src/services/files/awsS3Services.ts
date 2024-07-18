@@ -22,6 +22,7 @@ import {
   s3DeleteResponseSchema,
   toModelDeleteFileResponse,
 } from './entities/deleteFile';
+import { version } from 'os';
 
 // Define service interface:
 export interface AwsS3Service {
@@ -116,7 +117,9 @@ export class S3ServiceImpl implements AwsS3Service {
 
       const fileData: GetObjectOutput = await awsS3.getObject(params).promise();
 
-      return fileData;
+      const filteredData: any = this.mapAndFilterFile(fileData);
+
+      return filteredData;
     } catch (error) {
       throw new ClientError('AWS S3 service error.', error);
     }
@@ -184,7 +187,7 @@ export class S3ServiceImpl implements AwsS3Service {
     }
   }
 
-  // Function to map and filter file data:
+  // Function to map and filter files list data:
   private mapAndFilterFiles(files: ListObjectsV2Output): FilesS3 {
     const filteredData: FilesS3 = {
       bucketName: files.Name ?? 'No bucket name found.',
@@ -195,6 +198,17 @@ export class S3ServiceImpl implements AwsS3Service {
           lastUpdated: file.LastModified ?? new Date(),
           size: file.Size ?? 0,
         })) ?? [],
+    };
+    return filteredData;
+  }
+
+  // Function to map and filter file data:
+  private mapAndFilterFile(file: GetObjectOutput): any {
+    const filteredData: any = {
+      lasUpdated: file.LastModified,
+      contentType: file.ContentType,
+      versionId: file.VersionId,
+      contentLength: file.ContentLength,
     };
     return filteredData;
   }

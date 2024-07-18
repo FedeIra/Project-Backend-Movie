@@ -14,24 +14,42 @@ export class CreateFileDocumentUseCase {
   ) {}
 
   // Use case for creating document in DynamoDB:
-  async createDocument(fileName: any): Promise<any> {
+  async createDocument(fileKey: any): Promise<any> {
     // 1) Get data from S3 bucket:
     const fileData: GetObjectOutput =
-      await this.filesService.getFileData(fileName);
+      await this.filesService.getFileData(fileKey);
+
+    console.log(
+      '🚀 ~ CreateFileDocumentUseCase ~ createDocument ~ fileData:',
+      fileData
+    );
 
     // 2) Get url from S3 bucket:
     const fileUrl: GetFileUrlResponse =
-      await this.filesService.getFileUrl(fileName);
+      await this.filesService.getFileUrl(fileKey);
+
+    console.log(
+      '🚀 ~ CreateFileDocumentUseCase ~ createDocument ~ fileUrl:',
+      fileUrl
+    );
 
     // 3) Create document:
     const document: any = {
-      fileKey: fileName,
+      fileKey,
       fileData: fileData,
       fileUrl: fileUrl,
     };
+    console.log(
+      '🚀 ~ CreateFileDocumentUseCase ~ createDocument ~ document:',
+      document
+    );
 
     // 4) Create document in DynamoDB:
     const response: any = await this.databaseService.createDocument(document);
+    console.log(
+      '🚀 ~ CreateFileDocumentUseCase ~ createDocument ~ response:',
+      response
+    );
 
     return response;
   }
