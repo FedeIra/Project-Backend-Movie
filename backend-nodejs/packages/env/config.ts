@@ -17,6 +17,7 @@ const envSchema = z
     AWS_SECRET_KEY: z.string(),
     AWS_REGION: z.string(),
     AWS_BUCKET_NAME: z.string(),
+    AWS_DYNAME_TABLE_NAME: z.string(),
   })
   .strict();
 
@@ -37,6 +38,7 @@ const environmentVariables = {
   AWS_SECRET_KEY: process.env.AWS_SECRET_KEY,
   AWS_REGION: process.env.AWS_REGION,
   AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+  AWS_DYNAME_TABLE_NAME: process.env.AWS_DYNAME_TABLE_NAME,
 };
 
 // Validate environment variables:
@@ -62,6 +64,7 @@ const config = {
     secretKey: validatedEnv.AWS_SECRET_KEY,
     region: validatedEnv.AWS_REGION,
     bucketName: validatedEnv.AWS_BUCKET_NAME,
+    dynamoDBTableName: validatedEnv.AWS_DYNAME_TABLE_NAME,
   },
 };
 

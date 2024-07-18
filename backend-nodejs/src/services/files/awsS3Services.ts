@@ -28,6 +28,7 @@ export interface AwsS3Service {
   listFiles(): Promise<FilesS3>;
   getFileUrl(fileName: string): Promise<GetFileUrlResponse>;
   getFile(fileName: string): Promise<Buffer>;
+  getFileData(fileName: string): Promise<GetObjectOutput>;
   uploadFile(
     file: Buffer,
     fileName: string,
@@ -100,6 +101,22 @@ export class S3ServiceImpl implements AwsS3Service {
       } else {
         throw new ClientError('AWS files service incorrect response.');
       }
+    } catch (error) {
+      throw new ClientError('AWS S3 service error.', error);
+    }
+  }
+
+  // Service to get file data from S3 bucket:
+  async getFileData(fileKey: string): Promise<GetObjectOutput> {
+    try {
+      const params = {
+        Bucket: config.aws.bucketName,
+        Key: fileKey,
+      };
+
+      const fileData: GetObjectOutput = await awsS3.getObject(params).promise();
+
+      return fileData;
     } catch (error) {
       throw new ClientError('AWS S3 service error.', error);
     }
