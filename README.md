@@ -185,8 +185,8 @@ Below, an image the architecture of the project is shown:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/FedeIra/Project-Backend-Movie.git
-   cd Project-Backend-Movie/backend
+   git clone https://github.com/FedeIra/Project-Movie-TvShow-API.git
+   cd Project-Movie-TvShow-API/backend
    ```
 
 2. You can use branches `main` or `develop`.
