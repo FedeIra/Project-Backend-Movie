@@ -255,7 +255,7 @@ npm run test:watch # re-run on file changes
 ## API Endpoints
 
 The full request/response detail (bodies, headers, examples) for every endpoint lives in the Postman collection at
-[`backend/assetsDocumentation/Challenge Movies.postman_collection.json`](backend/assetsDocumentation/Challenge%20Movies.postman_collection.json) —
+[`backend/assetsDocumentation/Movie-TVShow-API.postman_collection.json`](backend/assetsDocumentation/Movie-TVShow-API.postman_collection.json) —
 import it into Postman to try the API directly. The table below is a quick reference of what's available.
 
 | Method | URL | Auth | Description |
