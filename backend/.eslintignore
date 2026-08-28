@@ -1,0 +1,3 @@
+# The lambda function is a separately deployed plain Node.js (CommonJS)
+# artifact - it is not part of the TypeScript/ESM app linted by .eslintrc.
+lambda/

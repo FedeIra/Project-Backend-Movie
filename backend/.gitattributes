@@ -1,0 +1,4 @@
+# Normalize line endings to LF for all text files, regardless of the local
+# checkout's core.autocrlf. Keeps `npm run lint` (prettier's endOfLine: lf)
+# consistent between contributors' machines and CI.
+* text=auto eol=lf

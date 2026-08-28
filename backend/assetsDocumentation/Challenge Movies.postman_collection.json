@@ -1,0 +1,1120 @@
+{
+	"info": {
+		"_postman_id": "a2f95ee9-3c44-434a-bcc6-a6c322ef4579",
+		"name": "Challenge Movies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26253923"
+	},
+	"item": [
+		{
+			"name": "get movies",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filters\": {\r\n        \"genre\": \"Action\",\r\n        \"recommended\": true,\r\n        \"year\": 2024\r\n    },\r\n    \"sorts\": {\r\n        \"byDate\": false,\r\n        \"byAverage\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get movies",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\": {\r\n        \"genre\": \"Action\",\r\n        \"recommended\": true,\r\n        \"year\": 2024\r\n    },\r\n    \"sorts\": {\r\n        \"byDate\": false,\r\n        \"byAverage\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "846"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 21 Dec 2024 13:16:32 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1184918,\n        \"title\": \"The Wild Robot\",\n        \"poster\": \"https://image.tmdb.org/t/p/original/aKrDLfQX30tHaTIC2ZRAxG2PbQw.jpg/wTnV3PCVW5O92JMrFvvrRcV39RU.jpg\",\n        \"description\": \"After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited island. To survive the harsh environment, Roz bonds with the island's animals and cares for an orphaned baby goose.\",\n        \"average\": 8.382,\n        \"releaseDate\": \"2024-09-08\",\n        \"genres\": [\n            \"Animation\",\n            \"Action\",\n            \"Science Fiction\",\n            \"Family\"\n        ]\n    },\n    {\n        \"id\": 1005331,\n        \"title\": \"Carry-On\",\n        \"poster\": \"https://image.tmdb.org/t/p/original/aKrDLfQX30tHaTIC2ZRAxG2PbQw.jpg/sjMN7DRi4sGiledsmllEw5HJjPy.jpg\",\n        \"description\": \"An airport security officer races to outsmart a mysterious traveler forcing him to let a dangerous item slip onto a Christmas Eve flight.\",\n        \"average\": 7,\n        \"releaseDate\": \"2024-12-05\",\n        \"genres\": [\n            \"Action\",\n            \"Mystery\",\n            \"Thriller\"\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "get tvShow detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjNiNWExMzczNThlYWFlMDQ2NTlkZSIsInVzZXJuYW1lIjoiRWplbXBsbzEiLCJpYXQiOjE3MjA3MDgyMDcsImV4cCI6MTcyMDcxMTgwN30.Tz3awolyR_CyPvV--8wP_5ZFFGu_P5ohVzEshvQwaQo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"tvshowId\": \"15\"  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/tvshow-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"tvshow-details"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get movies Copy",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"tvshowId\": \"1\"  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/tvshow-details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"tvshow-details"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "1805"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 03:08:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"adult\": false,\n    \"backdrop_path\": \"/j8PrRaUPI19b1ZxsXaT03bQpjWm.jpg\",\n    \"created_by\": [],\n    \"episode_run_time\": [\n        60\n    ],\n    \"first_air_date\": \"2004-01-12\",\n    \"genres\": [\n        {\n            \"id\": 18,\n            \"name\": \"Drama\"\n        }\n    ],\n    \"homepage\": \"https://fujitv.co.jp/b_hp/m9_pride\",\n    \"id\": 1,\n    \"in_production\": false,\n    \"languages\": [\n        \"ja\"\n    ],\n    \"last_air_date\": \"2004-03-22\",\n    \"last_episode_to_air\": {\n        \"id\": 1130472,\n        \"overview\": \"\",\n        \"name\": \"Pride Called Love\",\n        \"vote_average\": 0,\n        \"vote_count\": 0,\n        \"air_date\": \"2004-03-22\",\n        \"episode_number\": 11,\n        \"episode_type\": \"finale\",\n        \"production_code\": \"\",\n        \"runtime\": 60,\n        \"season_number\": 1,\n        \"show_id\": 1,\n        \"still_path\": null\n    },\n    \"name\": \"Pride\",\n    \"next_episode_to_air\": null,\n    \"networks\": [\n        {\n            \"id\": 1,\n            \"logo_path\": \"/4x4GsmRmSLLL0RVNKsoqAVH43tz.png\",\n            \"name\": \"Fuji TV\",\n            \"origin_country\": \"JP\"\n        }\n    ],\n    \"number_of_episodes\": 11,\n    \"number_of_seasons\": 1,\n    \"origin_country\": [\n        \"JP\"\n    ],\n    \"original_language\": \"ja\",\n    \"original_name\": \"プライド\",\n    \"overview\": \"Haru Satonaka is the captain of an ice-hockey team, a star athlete who stakes everything on hockey but can only consider love as a game. Aki Murase is a woman who has been waiting for her lover who went abroad two years ago. These two persons start a relationship while frankly admitting to each other that it is only a love game. …The result is the unfolding of a drama of people with their respective pasts and with their pride as individuals.\",\n    \"popularity\": 27.889,\n    \"poster_path\": \"/9Ub2BwnLYKoiSaQF93ItyXriCon.jpg\",\n    \"production_companies\": [],\n    \"production_countries\": [\n        {\n            \"iso_3166_1\": \"JP\",\n            \"name\": \"Japan\"\n        }\n    ],\n    \"seasons\": [\n        {\n            \"air_date\": \"2004-01-12\",\n            \"episode_count\": 11,\n            \"id\": 2328126,\n            \"name\": \"Season 1\",\n            \"overview\": \"\",\n            \"poster_path\": \"/96Cwc5ejUAiH6iAA6xOp96dkSZS.jpg\",\n            \"season_number\": 1,\n            \"vote_average\": 9\n        }\n    ],\n    \"spoken_languages\": [\n        {\n            \"english_name\": \"Japanese\",\n            \"iso_639_1\": \"ja\",\n            \"name\": \"日本語\"\n        }\n    ],\n    \"status\": \"Ended\",\n    \"tagline\": \"\",\n    \"type\": \"Scripted\",\n    \"vote_average\": 8.233,\n    \"vote_count\": 15\n}"
+				}
+			]
+		},
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"username\": \"Ejemplo4\",\r\n    \"password\": \"Ejemplo4\",\r\n    \"email\": \"Ejemplo4@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/register-user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"register-user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "register user",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"username\": \"Ejemplo1\",\r\n    \"password\": \"Ejemplo1\",\r\n    \"email\": \"Ejemplo1@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/register-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"register-user"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "105"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 01:36:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"username\": \"Ejemplo1\",\n    \"email\": \"Ejemplo1@gmail.com\",\n    \"wishList\": [],\n    \"createdAt\": \"2024-06-08T01:36:33.194Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"username\": \"Ejemplo4\",\r\n    \"password\": \"Ejemplo4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/login-user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"login-user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "register user Copy",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"username\": \"Ejemplo1\",\r\n    \"password\": \"Ejemplo1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/login-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"login-user"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "542"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 05:28:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"username\": \"Ejemplo1\",\n    \"email\": \"Ejemplo1@gmail.com\",\n    \"wishList\": [\n        {\n            \"title\": \"Rush Hour\",\n            \"id\": 123123,\n            \"image\": \"posterExample\",\n            \"_id\": \"6663e2feaa6483ee107b538d\"\n        },\n        {\n            \"title\": \"Lord of the rings\",\n            \"id\": 8763,\n            \"image\": \"posterExample2\",\n            \"_id\": \"6663e31baa6483ee107b5394\"\n        },\n        {\n            \"title\": \"Lord of the rings 3\",\n            \"id\": 8763,\n            \"image\": \"posterExample2\",\n            \"_id\": \"6663ec122881baa2859fe579\"\n        }\n    ],\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjNiNWExMzczNThlYWFlMDQ2NTlkZSIsInVzZXJuYW1lIjoiRWplbXBsbzEiLCJpYXQiOjE3MTc4MjQ1Mzh9.fn5SkrbVnJVxcUKB1pHYf4Ex-rVM86HkzN1yFTqeQs8\"\n}"
+				}
+			]
+		},
+		{
+			"name": "refresh token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjA3MDgyNzcsImV4cCI6MTcyMDcxMTg3N30.H8KoG8XgXqavUL9DSeG3TQ_KAXxYyDjlGOCI1xqf90s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"currentToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjA3MDgyNzcsImV4cCI6MTcyMDcxMTg3N30.H8KoG8XgXqavUL9DSeG3TQ_KAXxYyDjlGOCI1xqf90s\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"refresh-token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "refresh token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"currentToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjNiNWExMzczNThlYWFlMDQ2NTlkZSIsInVzZXJuYW1lIjoiRWplbXBsbzEiLCJpYXQiOjE3MTc4MTA2MDN9.yR0dv1Q_m4_kSryERGFLNq_fpR-kOUN2sScWNmXrw3w\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"refresh-token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "177"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 05:29:20 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjNiNWExMzczNThlYWFlMDQ2NTlkZSIsInVzZXJuYW1lIjoiRWplbXBsbzEiLCJpYXQiOjE3MTc4MjQ1NjB9.RcKYjuPBKdl9ICOvoXtT-r7diIBPq5cbVyIfKTDObp4"
+				}
+			]
+		},
+		{
+			"name": "add to wishlist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjA3MDgyNzcsImV4cCI6MTcyMDcxMTg3N30.H8KoG8XgXqavUL9DSeG3TQ_KAXxYyDjlGOCI1xqf90s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"username\": \"Ejemplo4\",\r\n    \"contentToAdd\": {\r\n        \"id\": 1254125,\r\n        \"title\": \"Rings of Power\",\r\n        \"poster\": \"posterExample2\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/add-to-wishlist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"add-to-wishlist"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add to wishlist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"username\": \"Ejemplo1\",\r\n    \"contentToAdd\": {\r\n        \"id\": 8763,\r\n        \"title\": \"Lord of the rings 3\",\r\n        \"poster\": \"posterExample2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/add-to-wishlist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"add-to-wishlist"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "39"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 05:28:50 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Added to wishlist. Enjoy!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get files list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjEyNzAwMzAsImV4cCI6MTcyMTI3MzYzMH0.OIPylZukzKKF2isfs7CK-uC7NgbZZfY8H2xFpYl5ZAA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/files-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"files-list"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get files list",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"files"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "2043"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Jul 2024 18:03:02 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bucketName\": \"certificates-fedeira\",\n    \"totalFiles\": 15,\n    \"files\": [\n        {\n            \"name\": \"Certificado Platzi. AWS. Cómputo con EC2.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:07.000Z\",\n            \"size\": 445774\n        },\n        {\n            \"name\": \"Certificado Platzi. AWS. Roles y Seguridad con IAM.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:08.000Z\",\n            \"size\": 457055\n        },\n        {\n            \"name\": \"Certificado Platzi. Backend con Node.js API REST con Express.js.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:04.000Z\",\n            \"size\": 482573\n        },\n        {\n            \"name\": \"Certificado Platzi. Backend con Node.js. Autenticación con Passport.js y JWT.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:03.000Z\",\n            \"size\": 510975\n        },\n        {\n            \"name\": \"Certificado Platzi. Curso de Fundamentos de Bases de Datos..pdf\",\n            \"lastUpdated\": \"2024-06-25T18:03:59.000Z\",\n            \"size\": 467448\n        },\n        {\n            \"name\": \"Certificado Platzi. Curso de introducción a AWS. Cómputo, almacenamiento y bases de datos..pdf\",\n            \"lastUpdated\": \"2024-06-25T18:03:56.000Z\",\n            \"size\": 511813\n        },\n        {\n            \"name\": \"Certificado Platzi. Fundamentos de Node.js.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:05.000Z\",\n            \"size\": 535067\n        },\n        {\n            \"name\": \"Certificado Platzi. Fundamentos de Typescript.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:01.000Z\",\n            \"size\": 460788\n        },\n        {\n            \"name\": \"Certificado Platzi. Introducción a AWS. Fundamentos del cloud computing..pdf\",\n            \"lastUpdated\": \"2024-06-25T18:03:58.000Z\",\n            \"size\": 464516\n        },\n        {\n            \"name\": \"Certificado Platzi. Introducción a AWS. Redes, Gobernanza y Machine Learning.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:03:55.000Z\",\n            \"size\": 482565\n        },\n        {\n            \"name\": \"Certificado Platzi. Introducción a la nube..pdf\",\n            \"lastUpdated\": \"2024-06-25T18:03:57.000Z\",\n            \"size\": 449571\n        },\n        {\n            \"name\": \"Certificado Platzi. Laboratorio profesional de Node.js. Autenticación.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:02.000Z\",\n            \"size\": 470319\n        },\n        {\n            \"name\": \"Certificado Platzi. Programación orientada a objetos y asincronismo.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:00.000Z\",\n            \"size\": 509825\n        },\n        {\n            \"name\": \"Certificado Platzi. Tipos Avanzados de Typescript y Funciones.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:00.000Z\",\n            \"size\": 489034\n        },\n        {\n            \"name\": \"Certificado educacionIT. Python para no programadores.pdf\",\n            \"lastUpdated\": \"2024-06-25T18:04:06.000Z\",\n            \"size\": 144025\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "get file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MzQ3ODcwMTksImV4cCI6MTczNDc5MDYxOX0.ghWmvz9P68n9i-VJ-34zAduaBovDsRHtZUoAPFV6Fx0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/file/:fileKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"file",
+						":fileKey"
+					],
+					"variable": [
+						{
+							"key": "fileKey",
+							"value": "Certificado Platzi. AWS. Cómputo con EC2.pdf"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get file url",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjEwNzEwMjcsImV4cCI6MTcyMTA3NDYyN30.CINVEvGNtEIXBYBWeV9V_hcUZem5U1P8m80XmZBYJj8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/fileUrl/:fileKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"fileUrl",
+						":fileKey"
+					],
+					"variable": [
+						{
+							"key": "fileKey",
+							"value": "Cover Letter - Federico Irarrazaval.pdf"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get file url",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/fileUrl/:fileKey",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"fileUrl",
+								":fileKey"
+							],
+							"variable": [
+								{
+									"key": "fileKey",
+									"value": "Certificado Platzi. AWS. Cómputo con EC2.pdf"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "391"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2024 13:38:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"url\": \"https://certificates-fedeira.s3.us-east-2.amazonaws.com/Certificado%20Platzi.%20AWS.%20C%C3%B3mputo%20con%20EC2.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAYRPRBL6Q6PXZRM2S%2F20240715%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20240715T133822Z&X-Amz-Expires=900&X-Amz-Signature=10a93687809bcbeadde914d3ad92deb25314474c4d6cf526fc34368e8172529c&X-Amz-SignedHeaders=host\"\n}"
+				}
+			]
+		},
+		{
+			"name": "upload file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjExNDA0MzcsImV4cCI6MTcyMTE0NDAzN30.fhsCCp9dOzncYMfxJOvewIIg5ZDtzVHMaTdk1whfaPI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "postman-cloud:///1ef3256b-e5ee-4100-874a-da43767c2263"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/file/:keyName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"file",
+						":keyName"
+					],
+					"variable": [
+						{
+							"key": "keyName",
+							"value": "Cover Letter - Federico Irarrazaval.pdf"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "upload file",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1ef3256b-e5ee-4100-874a-da43767c2263"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/file/:keyName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"file",
+								":keyName"
+							],
+							"variable": [
+								{
+									"key": "keyName",
+									"value": "Probando"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "163"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2024 14:51:02 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"key\": \"Probando\",\n    \"bucket\": \"certificates-fedeira\",\n    \"url\": \"https://certificates-fedeira.s3.us-east-2.amazonaws.com/Probando\",\n    \"message\": \"File uploaded successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "delete file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjExNDA0MzcsImV4cCI6MTcyMTE0NDAzN30.fhsCCp9dOzncYMfxJOvewIIg5ZDtzVHMaTdk1whfaPI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/file/:keyName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"file",
+						":keyName"
+					],
+					"variable": [
+						{
+							"key": "keyName",
+							"value": "Cover Letter - Federico Irarrazaval.pdf"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add to wishlist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"username\": \"Ejemplo1\",\r\n    \"contentToAdd\": {\r\n        \"id\": 8763,\r\n        \"title\": \"Lord of the rings 3\",\r\n        \"poster\": \"posterExample2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/add-to-wishlist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"add-to-wishlist"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "39"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 05:28:50 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Added to wishlist. Enjoy!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "create document",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGZlY2E4NjRlOTcwZThkM2QxM2RkMyIsInVzZXJuYW1lIjoiRWplbXBsbzQiLCJpYXQiOjE3MjEyNzAwMzAsImV4cCI6MTcyMTI3MzYzMH0.OIPylZukzKKF2isfs7CK-uC7NgbZZfY8H2xFpYl5ZAA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/create-document/:fileKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"create-document",
+						":fileKey"
+					],
+					"variable": [
+						{
+							"key": "fileKey",
+							"value": "Certificado Platzi. AWS. Cómputo con EC2.pdf"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add to wishlist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"username\": \"Ejemplo1\",\r\n    \"contentToAdd\": {\r\n        \"id\": 8763,\r\n        \"title\": \"Lord of the rings 3\",\r\n        \"poster\": \"posterExample2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/add-to-wishlist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"add-to-wishlist"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "39"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Jun 2024 05:28:50 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Added to wishlist. Enjoy!\"\n}"
+				}
+			]
+		}
+	]
+}
