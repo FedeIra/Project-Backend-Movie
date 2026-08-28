@@ -21,7 +21,7 @@ export class DatabaseClient {
     });
 
     this.connection.once('open', () => {
-      console.log('Connected to Movie-Challenge Database.');
+      console.log('Connected to Movie Database.');
     });
   }
 
