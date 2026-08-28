@@ -6,15 +6,15 @@
       "name": "Run npm dev",
       "request": "launch",
       "type": "node-terminal",
-      "cwd": "${workspaceFolder}/backend-nodejs"
+      "cwd": "${workspaceFolder}/backend"
     },
     {
       "name": "Launch via nodemon",
       "type": "node",
       "request": "launch",
       "protocol": "inspector",
-      "cwd": "${workspaceFolder}/backend-nodejs",
-      "runtimeExecutable": "${workspaceFolder}/backend-nodejs/node_modules/.bin/ts-node-dev",
+      "cwd": "${workspaceFolder}/backend",
+      "runtimeExecutable": "${workspaceFolder}/backend/node_modules/.bin/ts-node-dev",
       "args": ["server/main.ts"],
       "restart": true
     }
